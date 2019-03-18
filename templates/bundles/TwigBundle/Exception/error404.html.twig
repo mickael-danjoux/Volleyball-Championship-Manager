@@ -1,0 +1,29 @@
+{% set page = 'error' %}
+{% extends 'base.html.twig' %}
+
+{% block title %}Erreur 404 : Page Introuvable{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/error.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <section class="error-page">
+        <div class="container">
+                <div class="text-center">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h1 class="display-1">Erreur 404</h1>
+                </div>
+                <div class="text-center">
+                    <a href="{{ path("index") }}">
+                        <p class="alert alert-danger">
+                            <span class="glyphicon glyphicon-remove"></span>
+                            La page que vous recherchez n'existe pas. <br> Cliquez ici pour retourner sur la page d'accueil.
+                        </p>
+                    </a>
+                </div>
+        </div>
+    </section>
+
+{% endblock %}

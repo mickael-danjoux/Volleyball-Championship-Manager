@@ -1,0 +1,15 @@
+/***************** MENTIONS LEGALES *****************/
+#mentions-legales {padding:50px; background:#fff; color:#000;}
+#mentions-legales h2{font-size: 28px;color:#000; margin-bottom: 30px;}
+#mentions-legales .space {margin-top:15px}
+#mentions-legales a {color:#be0a26; font-weight: 700}
+#mentions-legales p {font-size: 15px; margin: 10px 0}
+#mentions-legales .bloc {margin: 60px 0 }
+#mentions-legales .bloc .titre {display:block; font-weight: 700; text-transform: uppercase; margin-bottom: 20px;}
+#mentions-legales .bloc .titre::before {  content: "";height: 3px;width: 600px;background: #be0a26;position: absolute;margin: -18px 0;}
+#mentions-legales .bloc .sous-titre {display:block;font-weight: 700; color:#333; margin-bottom: 10px}
+#mentions-legales .infos {margin: 20px 0 0 50px;}
+#mentions-legales .infos .list {display: flex; flex-direction: column}
+#mentions-legales ul.liste {list-style:none; margin-left:30px;}
+@media screen and (max-width:990px) {#mentions-legales .infos {margin-left: 0;} #mentions-legales ul.liste {margin-left:0;}#mentions-legales .bloc .titre::before {width: 400px;}}
+@media screen and (max-width:720px) {#mentions-legales {padding:50px 20px;}#mentions-legales .bloc .titre::before {width: 250px;}}

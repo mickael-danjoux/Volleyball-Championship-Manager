@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+{% set page = 'contact' %}
+{% block title %}Contact{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center"><h1>Contactez-nous</h1></div>
+        </div>
+
+        <div class="row justify-content-center">
+            {{ form_start(contact, {'attr' : {'id': 'contact'}}) }}
+
+            {% for message in app.flashes('success') %}
+                <div class="flash-notice">
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+                </div>
+            {% endfor %}
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    {{ form_label(contact.firstName) }}
+                    {{ form_widget(contact.firstName) }}
+                </div>
+                <div class="form-group col-md-6">
+                    {{ form_label(contact.lastName) }}
+                    {{ form_widget(contact.lastName) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                {{ form_label(contact.address) }}
+                {{ form_widget(contact.address) }}
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    {{ form_label(contact.zipCode) }}
+                    {{ form_widget(contact.zipCode) }}
+                </div>
+                <div class="form-group col-md-8">
+                    {{ form_label(contact.city) }}
+                    {{ form_widget(contact.city) }}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    {{ form_label(contact.phone) }}
+                    {{ form_widget(contact.phone) }}
+                </div>
+                <div class="form-group col-md-6">
+                    {{ form_label(contact.email) }}
+                    {{ form_widget(contact.email) }}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-12">
+                    {{ form_label(contact.message) }}
+                    {{ form_widget(contact.message) }}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-12">
+                    {{ form_widget(contact.agreeTerms) }}
+                    {{ form_label(contact.agreeTerms) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                {{ form_widget(contact.captcha) }}
+
+                {% for message in app.flashes('error') %}
+                    <b><p style="color:red">{{ message }}</p></b>
+                {% endfor %}
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    {{ form_widget(contact.save, {'attr' : {'class': 'btn btn-primary'}}) }}
+                </div>
+            </div>
+
+            {{ form_end(contact) }}
+
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <!-- Google Recaptcha -->
+    <script src="//www.google.com/recaptcha/api.js?hl=fr"></script>
+{% endblock %}

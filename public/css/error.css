@@ -1,0 +1,5 @@
+/****** ERROR PAGES *****/
+.error-page {min-height: 400px; display:flex; justify-content: center; align-items:center; padding: 50px;}
+.error-page h1 {margin: 20px auto ; color:#fff !important; font-size:45px;}
+.error-page .alert-danger {color: #fff;background-color: #be0a26;font-size: 18px;border: none;padding: 30px;}
+.error-page i {font-size:45px; margin-top:20px;}

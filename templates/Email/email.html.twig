@@ -1,0 +1,22 @@
+<h3>Nouvelle demande de renseignement envoyé depuis le site <a href="//www.garage-carriat.com">Garage Carriat</a> (www.garage-carriat.com)</h3>
+
+{% if ref is defined and ref is not empty  %}
+  <h4><a href="localhost:8000/fiche/{{ marque }}-{{ modele }}-{{ ref }}">Lien vers le véhicule {{ marque }} {{ modele }} référencé {{ ref }}</a></h4>
+  {#<h4><a href="{{ path('fiche', {'ref': ref, 'marque': marque|lower, 'modele': modele|lower } )}}">Lien vers le véhicule {{ marque }} {{ modele }} référencé {{ ref }}</a></h4>#}
+{% endif %}
+
+
+<hr>
+
+<ul>
+  <li><b>Emmetteur : </b> {{ data.email }}</li>
+  <li><b>Nom & Prénom : </b> {{ data.firstName }} {{ data.lastName }}</li>
+  <li><b>Adresse : </b> {{ data.address }} {{ data.zipCode }} {{ data.city }}</li>
+  <li><b>Téléphone : </b> {{ data.phone }}</li>
+</ul>
+
+<hr>
+
+<b>Message :</b> <br />
+
+{{ data.message }}
