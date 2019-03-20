@@ -3,31 +3,26 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * @Embeddable
+ * @ORM\Embeddable
  */
 class Score
 {
 
     /**
-     * @ORM\id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", name="home_team")
      */
     private $scoreHomeTeam;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", name="outside_team")
      */
     private $scoreOutsideTeam;
 
     /**
-    *@ORM\OneToMany(targetEntity="Set", mappedBy="match_id")
+    *@ORM\OneToMany(targetEntity="Set", mappedBy="match")
     */
     private $sets;
 
@@ -43,11 +38,6 @@ class Score
         $this->scoreHomeTeam = $scoreHomeTeam;
         $this->scoreOutsideTeam = $scoreOutsideTeam;
         $this->sets = $sets;
-    }
-
-    public function getId():int
-    {
-        return $this->id;
     }
 
     public function getScoreHomeTeam():int

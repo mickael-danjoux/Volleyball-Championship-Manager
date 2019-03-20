@@ -3,11 +3,15 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @ORM\Entity
+ */
 class Set
 {
     /**
-     * @ORM\id
+     * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
@@ -29,19 +33,26 @@ class Set
     private $setPointOutsideTeam;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Match", inversedBy="sets")
+     */
+    private $match;
+
+    /**
      * Set constructor.
      * @param $setNumber
      * @param $setPointHomeTeam
      * @param $setPointOutsideTeam
+     * @param $match
      */
-    public function __construct($setNumber, $setPointHomeTeam, $setPointOutsideTeam)
+    public function __construct($setNumber, $setPointHomeTeam, $setPointOutsideTeam, $match)
     {
         $this->setNumber = $setNumber;
         $this->setPointHomeTeam = $setPointHomeTeam;
         $this->setPointOutsideTeam = $setPointOutsideTeam;
+        $this->match = $match;
     }
 
-    public function getId():void
+    public function getId():int
     {
         return $this->id;
     }
@@ -61,6 +72,11 @@ class Set
     public function getSetPointOutsideTeam():int
     {
         return $this->setPointOutsideTeam;
+    }
+
+    public function getMatch(): int
+    {
+        return $this->match;
     }
 
 

@@ -4,11 +4,15 @@
 namespace App\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @ORM\Entity
+ */
 class Match
 {
     /**
-     * @ORM\id
+     * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
@@ -16,13 +20,13 @@ class Match
 
     /**
      * @ORM\ManyToOne(targetEntity="Team")
-     * @JoinColumn(name="team_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="home_team_id", referencedColumnName="id")
      */
     private $homeTeam;
 
     /**
      * @ORM\ManyToOne(targetEntity="Team")
-     * @ORM\JoinColumn(name="team_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="outside_team_id", referencedColumnName="id")
      */
     private $outsideTeam;
 
@@ -37,8 +41,9 @@ class Match
     private $score;
 
 
-    public function __construct(Team $homeTeam,Team $outsideTeam,Score $score)
+    public function __construct(int $id, Team $homeTeam,Team $outsideTeam,Score $score)
     {
+        $this->id = $id;
         $this->homeTeam = $homeTeam;
         $this->outsideTeam = $outsideTeam;
         $this->score = $score;
