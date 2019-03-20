@@ -1,0 +1,49 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: flore
+ * Date: 18/03/2019
+ * Time: 12:21
+ */
+
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ */
+class Club extends Account
+{
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Team", mappedBy="club")
+     */
+    private $teams;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\VolleyballCourt", mappedBy="club")
+     */
+    private $volleyballCourts;
+
+    public function __construct($id, $teams, $volleyballCourts, $email, $password, $phoneNumber, $name, $managerFirstName, $managerLastName, $active)
+    {
+        $this->teams = $teams;
+        $this->volleyballCourts = $volleyballCourts;
+        parent::__construct($id, $email, $password, $phoneNumber, $name, $managerFirstName, $managerLastName, $active);
+    }
+
+
+    public function getTeams(): array
+    {
+        return $this->teams;
+    }
+
+    public function getVolleyballCourts(): array
+    {
+        return $this->volleyballCourts;
+    }
+
+
+
+}
