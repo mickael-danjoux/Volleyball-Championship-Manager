@@ -26,6 +26,11 @@ class Group
      */
     private $teams = [];
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Championship", inversedBy="groups")
+     */
+    private $championship;
+
     public function __construct(int $id, string $name)
     {
         $this->id = $id;

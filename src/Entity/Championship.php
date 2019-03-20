@@ -27,7 +27,7 @@ class Championship
     private $pointSpecification;
 
     /**
-     * @ORM\OneToMany(targetEntity="Group", mappedby="id")
+     * @ORM\OneToMany(targetEntity="Group", mappedBy="id")
      */
     private $groups = [];
 
