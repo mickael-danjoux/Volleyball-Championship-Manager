@@ -30,7 +30,7 @@ class TimeSlot
     /**
      * @ORM\Column(type="datetime")
      */
-    private $duration;
+    private $endTime;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\VolleyballCourt", inversedBy="timeSlots")
@@ -38,10 +38,10 @@ class TimeSlot
     private $volleyballCourt;
 
 
-    public function __construct($startTime, $duration, $volleyballCourt)
+    public function __construct($startTime, $endTime, $volleyballCourt)
     {
         $this->startTime = $startTime;
-        $this->duration = $duration;
+        $this->endTime = $endTime;
         $this->volleyballCourt = $volleyballCourt;
     }
 
@@ -56,9 +56,9 @@ class TimeSlot
         return $this->startTime;
     }
 
-    public function getDuration(): \DateTime
+    public function getEndTime(): \DateTime
     {
-        return $this->duration;
+        return $this->endTime;
     }
 
     public function getVolleyballCourt(): VolleyballCourt
