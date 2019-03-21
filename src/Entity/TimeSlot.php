@@ -38,9 +38,8 @@ class TimeSlot
     private $volleyballCourt;
 
 
-    public function __construct($id, $startTime, $duration, $volleyballCourt)
+    public function __construct($startTime, $duration, $volleyballCourt)
     {
-        $this->id = $id;
         $this->startTime = $startTime;
         $this->duration = $duration;
         $this->volleyballCourt = $volleyballCourt;

@@ -26,11 +26,9 @@ class Club extends Account
      */
     private $volleyballCourts;
 
-    public function __construct($id, $teams, $volleyballCourts, $email, $password, $phoneNumber, $name, $managerFirstName, $managerLastName, $active)
+    public function __construct($email, $password, $phoneNumber, $name, $managerFirstName, $managerLastName, $active)
     {
-        $this->teams = $teams;
-        $this->volleyballCourts = $volleyballCourts;
-        parent::__construct($id, $email, $password, $phoneNumber, $name, $managerFirstName, $managerLastName, $active);
+        parent::__construct($email, $password, $phoneNumber, $name, $managerFirstName, $managerLastName, $active);
     }
 
 

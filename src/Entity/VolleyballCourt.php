@@ -38,12 +38,10 @@ class VolleyballCourt
     private $timeSlots;
 
 
-    public function __construct($id, $place, $club, $timeSlots)
+    public function __construct($place, $club)
     {
-        $this->id = $id;
         $this->place = $place;
         $this->club = $club;
-        $this->timeSlots = $timeSlots;
     }
 
 

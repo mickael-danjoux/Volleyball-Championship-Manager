@@ -28,11 +28,11 @@ class Team extends Account
     private $club;
 
 
-    public function __construct($id, $validate, $club, $email, $password, $phoneNumber, $name, $managerFirstName, $managerLastName, $active)
+    public function __construct($validate, $club, $email, $password, $phoneNumber, $name, $managerFirstName, $managerLastName, $active)
     {
         $this->validate = $validate;
         $this->club = $club;
-        parent::__construct($id, $email, $password, $phoneNumber, $name, $managerFirstName, $managerLastName, $active);
+        parent::__construct($email, $password, $phoneNumber, $name, $managerFirstName, $managerLastName, $active);
     }
 
     public function getValidate(): bool

@@ -56,9 +56,8 @@ class Account
     protected $active;
 
 
-    public function __construct($id, $email, $password, $phoneNumber, $name, $managerFirstName, $managerLastName, $active)
+    public function __construct($email, $password, $phoneNumber, $name, $managerFirstName, $managerLastName, $active)
     {
-        $this->id = $id;
         $this->email = $email;
         $this->password = $password;
         $this->phoneNumber = $phoneNumber;
