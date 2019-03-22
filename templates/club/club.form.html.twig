@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="col-md-4 mx-auto">
+        <h4 class="text-center mb-4">Formulaire club</h4>
+        <form method="POST">
+            <div class="form-group">
+                <label for="inputClubName">Nom du club</label>
+                <input class="form-control" id="inputClubName" type="text" name="name" required/>
+            </div>
+            <div class="form-group">
+                <label for="inputManagerLastName">Nom du référent</label>
+                <input class="form-control" id="inputManagerLastName" type="text" name="managerLastName" required/>
+            </div>
+            <div class="form-group">
+                <label for="inputManagerFirstName">Prénom du référent</label>
+                <input class="form-control" id="inputManagerFirstName" type="text" name="managerFirstName" required/>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail">Email</label>
+                <input class="form-control" id="inputEmail" type="email" name="email" required/>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword">Password</label>
+                <input class="form-control" id="inputPassword" type="password" name="password" required/>
+            </div>
+            <div class="form-group">
+                <label for="inputPhoneNumber">Numéro de téléphone</label>
+                <input class="form-control" id="inputPhoneNumber" type="text" name="phoneNumber" required/>
+            </div>
+            <div class="form-group">
+                <label for="inputActive">Club actif</label>
+                <select class="custom-select" id="inputActive" name="active" required>
+                    <option value="1" selected>Oui</option>
+                    <option value="0">Non</option>
+                </select>
+            </div>
+            <div class="w-100 text-right">
+                <input class="btn btn-primary" type="submit" value="Enregistrer"/>
+            </div>
+        </form>
+    </div>
+{% endblock %}
