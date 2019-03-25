@@ -1,8 +1,40 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-<div class="list-group">
-    {% for %} }
-        <a href="#" class="list-group-item list-group-item-action"></a>
-    {% endfor %}
-</div>
+    <div class="col-md-5 mx-auto">
+        <h4 class="text-center mb-4">Gérer les clubs</h4>
+        <nav class="navbar navbar-light bg-light">
+            <form class="form-inline mx-auto">
+                <input class="form-control mr-sm-2" type="search" placeholder="Rechercher un club..." aria-label="Search">
+                <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Rechercher</button>
+            </form>
+        </nav>
+        <nav class="navbar navbar-dark bg-light">
+            <a href="{{ url('club-form') }}"><button class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter un club</button></a>
+        </nav>
+        <div class="list-group">
+            {% for club in clubs %}
+                {% if club.active == 0 %}
+                    <span class="list-group-item text-danger">{{ club.name }} - {{ club.managerLastName }} {{ club.managerFirstName }}
+                        <a href="{{ url('club-form', {'name':club.name,
+                                                      'managerLastName':club.managerLastName,
+                                                      'managerFirstName':club.managerFirstName,
+                                                      'email':club.email,
+                                                      'phoneNumber':club.phoneNumber,
+                                                      'active':club.active}) }}"
+                           class="float-right btn btn-outline-primary">Voir la page</a>
+                    </span>
+                {% else %}
+                    <span class="list-group-item">{{ club.name }} - {{ club.managerLastName }} {{ club.managerFirstName }}
+                        <a href="{{ url('club-form', {'name':club.name,
+                                                      'managerLastName':club.managerLastName,
+                                                      'managerFirstName':club.managerFirstName,
+                                                      'email':club.email,
+                                                      'phoneNumber':club.phoneNumber,
+                                                      'active':club.active}) }}"
+                           class="float-right btn btn-outline-primary">Voir la page</a>
+                    </span>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

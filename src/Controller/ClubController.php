@@ -11,14 +11,43 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ClubController extends AbstractController
 {
-
     /**
-     * @Route("/club/form", name="club")
+     * @Route("/club", name="club")
      */
-    public function createClub(Request $req) {
+    public function getClubs(Request $req) {
+
         if ($req->isMethod('GET')){
 
-            return $this->render('club/club.form.html.twig');
+            $clubs = $this->getDoctrine()
+                ->getRepository(Club::class)
+                ->findAll();
+
+            return $this->render('club/club.list.html.twig', ['clubs' => $clubs], new Response("Affichage des clubs OK", 200));
+        }
+    }
+
+    /**
+     * @Route("/club/form", name="club-form")
+     */
+    public function createClub(Request $req) {
+
+        if ($req->isMethod('GET')){
+
+            $name = $req->get('name');
+            $managerLastName = $req->get('managerLastName');
+            $managerFirstName = $req->get('managerFirstName');
+            $email = $req->get('email');
+            $phoneNumber = $req->get('phoneNumber');
+            $active = $req->get('active');
+
+            return $this->render('club/club.form.html.twig', [
+                'name' => $name,
+                'managerLastName' => $managerLastName,
+                'managerFirstName' => $managerFirstName,
+                'email' => $email,
+                'phoneNumber' => $phoneNumber,
+                'active' => $active
+            ], new Response(200));
 
         } else if ($req->isMethod('POST')) {
 
@@ -38,7 +67,7 @@ class ClubController extends AbstractController
 
             $entityManager->flush();
 
-            return $this->render('club/club.form.html.twig');
+            return $this->render('club/club.form.html.twig', [], new Response(200));
             //return new Response($req->get("active"));
         }
     }

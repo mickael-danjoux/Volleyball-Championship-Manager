@@ -5,19 +5,19 @@
         <form method="POST">
             <div class="form-group">
                 <label for="inputClubName">Nom du club</label>
-                <input class="form-control" id="inputClubName" type="text" name="name" required/>
+                <input class="form-control" id="inputClubName" type="text" name="name" value="{% if name is defined %} {{ name }} {% endif %}" required/>
             </div>
             <div class="form-group">
                 <label for="inputManagerLastName">Nom du référent</label>
-                <input class="form-control" id="inputManagerLastName" type="text" name="managerLastName" required/>
+                <input class="form-control" id="inputManagerLastName" type="text" name="managerLastName" value="{% if managerLastName is defined %} {{ managerLastName }} {% endif %}" required/>
             </div>
             <div class="form-group">
                 <label for="inputManagerFirstName">Prénom du référent</label>
-                <input class="form-control" id="inputManagerFirstName" type="text" name="managerFirstName" required/>
+                <input class="form-control" id="inputManagerFirstName" type="text" name="managerFirstName" value="{% if managerFirstName is defined %} {{ managerFirstName }} {% endif %}" required/>
             </div>
             <div class="form-group">
                 <label for="inputEmail">Email</label>
-                <input class="form-control" id="inputEmail" type="email" name="email" required/>
+                <input class="form-control" id="inputEmail" type="email" name="email" value="{% if email is defined %} {{ email }} {% endif %}" required/>
             </div>
             <div class="form-group">
                 <label for="inputPassword">Password</label>
@@ -25,13 +25,23 @@
             </div>
             <div class="form-group">
                 <label for="inputPhoneNumber">Numéro de téléphone</label>
-                <input class="form-control" id="inputPhoneNumber" type="text" name="phoneNumber" required/>
+                <input class="form-control" id="inputPhoneNumber" type="text" name="phoneNumber" value="{% if phoneNumber is defined %} {{ phoneNumber }} {% endif %}" required/>
             </div>
             <div class="form-group">
                 <label for="inputActive">Club actif</label>
                 <select class="custom-select" id="inputActive" name="active" required>
-                    <option value="1" selected>Oui</option>
-                    <option value="0">Non</option>
+                    {% if (active is defined) and (active != null) %}
+                        {% if active == 1 %}
+                            <option value="1" selected>Oui</option>
+                            <option value="0">Non</option>
+                        {% elseif active == 0 %}
+                            <option value="1">Oui</option>
+                            <option value="0" selected>Non</option>
+                        {% endif %}
+                    {% else %}
+                        <option value="1" selected>Oui</option>
+                        <option value="0">Non</option>
+                    {% endif %}
                 </select>
             </div>
             <div class="w-100 text-right">
