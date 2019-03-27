@@ -14,26 +14,14 @@
         <div class="list-group">
             {% for club in clubs %}
                 {% if club.active == 0 %}
-                    <span class="list-group-item text-danger">{{ club.name }} - {{ club.managerLastName }} {{ club.managerFirstName }}
-                        <a href="{{ url('club-form', {'name':club.name,
-                                                      'managerLastName':club.managerLastName,
-                                                      'managerFirstName':club.managerFirstName,
-                                                      'email':club.email,
-                                                      'phoneNumber':club.phoneNumber,
-                                                      'active':club.active}) }}"
-                           class="float-right btn btn-outline-primary">Voir la page</a>
-                    </span>
+                    <span class="list-group-item text-danger">
                 {% else %}
-                    <span class="list-group-item">{{ club.name }} - {{ club.managerLastName }} {{ club.managerFirstName }}
-                        <a href="{{ url('club-form', {'name':club.name,
-                                                      'managerLastName':club.managerLastName,
-                                                      'managerFirstName':club.managerFirstName,
-                                                      'email':club.email,
-                                                      'phoneNumber':club.phoneNumber,
-                                                      'active':club.active}) }}"
+                    <span class="list-group-item">
+                {% endif %}
+                    {{ club.name }} - {{ club.managerLastName }} {{ club.managerFirstName }}
+                        <a href="{{ url('club-form', {'id':club.id}) }}"
                            class="float-right btn btn-outline-primary">Voir la page</a>
                     </span>
-                {% endif %}
             {% endfor %}
         </div>
     </div>
