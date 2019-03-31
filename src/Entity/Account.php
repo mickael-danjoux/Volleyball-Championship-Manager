@@ -67,12 +67,11 @@ class Account
         $this->active = $active;
     }
 
-    public function setAccount($name, $managerLastName, $managerFirstName, $email, $password, $phoneNumber, $active): void {
+    public function setAccount($name, $managerLastName, $managerFirstName, $email, $phoneNumber, $active): void {
         $this->name = $name;
         $this->managerLastName = $managerLastName;
         $this->managerFirstName = $managerFirstName;
         $this->email = $email;
-        $this->password = $password;
         $this->phoneNumber = $phoneNumber;
         $this->active = $active;
     }
