@@ -4,7 +4,7 @@
         <h4 class="text-center mb-4">Formulaire team</h4>
         <form method="POST">
             <h5 class="text-center mb-4">Nom du club n</h5>
-            <input type="hidden" name="clubId" value="{{ clubId }}">
+            <input type="hidden" name="clubId" value="{% if clubId is defined %}{{ clubId }}{% endif %}">
             <div class="form-group">
                 <label for="inputCaptainLastName">Nom du capitaine</label>
                 <input class="form-control" id="inputCaptainLastName" type="text" name="inputCaptainLastName" value="{% if id is defined %}{{ lastName }}{% endif %}" required/>
