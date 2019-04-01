@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ClubController extends AbstractController
 {
     /**
-     * @Route("/club", name="club")
+     * @Route("/club", name="clubs")
      */
     public function getClubs(Request $req)
     {
@@ -39,20 +39,20 @@ class ClubController extends AbstractController
     }
 
     /**
-     * @Route("/club/form", name="club-form")
+     * @Route("/club/form", name="club")
      */
     public function clubForm(Request $req)
     {
 
         if ($req->isMethod('GET')) {
 
-            if ($req->get('id') != null) {
+            if ($req->get('clubId') != null) {
 
-                $id = $req->get('id');
+                $id = $req->get('clubId');
                 $club = $this->getDoctrine()->getRepository(Club::class)->find($id);
 
                 return $this->render('club/club.form.html.twig', [
-                    'id' => $id,
+                    'clubId' => $id,
                     'name' => $club->getName(),
                     'managerLastName' => $club->getManagerLastName(),
                     'managerFirstName' => $club->getManagerFirstName(),
@@ -89,7 +89,7 @@ class ClubController extends AbstractController
             $entityManager->persist($club);
             $entityManager->flush();
 
-            return $this->redirectToRoute('club');
+            return $this->redirectToRoute('clubs');
 
         } else if ($req->isMethod('DELETE')) {
 
@@ -101,7 +101,7 @@ class ClubController extends AbstractController
             $entityManager->remove($club);
             $entityManager->flush();
 
-            return $this->redirectToRoute('club');
+            return $this->redirectToRoute('clubs');
         }
         return null;
     }

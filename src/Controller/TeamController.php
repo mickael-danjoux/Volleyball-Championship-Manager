@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TeamController extends AbstractController
 {
     /**
-     * @Route("/club/team", name="club-team")
+     * @Route("/club/team", name="teams")
      */
     public function getTeams(Request $req) {
 
@@ -38,7 +38,7 @@ class TeamController extends AbstractController
                 ->getRepository(Team::class)
                 ->findBy(array('club' => $club));
 
-            return $this->render('team/team.list.html.twig', ['teams' => $teams, 'clubId' => $clubId], new Response(200));
+            return $this->render('team/team.list.html.twig', ['teams' => $teams, 'club' => $club], new Response(200));
         }
 
         return null;
