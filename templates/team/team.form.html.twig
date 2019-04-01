@@ -4,30 +4,31 @@
         <h4 class="text-center mb-4">Formulaire team</h4>
         <form method="POST">
             <h5 class="text-center mb-4">Nom du club n</h5>
+            <input type="hidden" name="clubId" value="{{ clubId }}">
             <div class="form-group">
                 <label for="inputCaptainLastName">Nom du capitaine</label>
-                <input class="form-control" id="inputCaptainLastName" type="text" name="inputCaptainLastName" required/>
+                <input class="form-control" id="inputCaptainLastName" type="text" name="inputCaptainLastName" value="{% if id is defined %}{{ lastName }}{% endif %}" required/>
             </div>
 
             <div class="form-group">
                 <label for="inputCaptainFirstName">Prénom du capitaine</label>
-                <input class="form-control" id="inputCaptainFirstName" type="text" name="inputCaptainFirstName" required/>
+                <input class="form-control" id="inputCaptainFirstName" type="text" name="inputCaptainFirstName" value="{% if id is defined %}{{ firstName }}{% endif %}" required/>
             </div>
 
             <div class="form-group">
                 <label for="inputCaptainMail">Email du capitaine</label>
-                <input class="form-control" id="inputCaptainMail" type="email" name="inputCaptainMail" required/>
+                <input class="form-control" id="inputCaptainMail" type="email" name="inputCaptainMail" value="{% if id is defined %}{{ mail }}{% endif %}" required/>
             </div>
 
             <div class="form-group">
                 <label for="inputCaptainPhoneNumber">Téléphone du capitaine</label>
-                <input class="form-control" id="inputCaptainPhoneNumber" name="inputCaptainPhoneNumber" type="tel">
+                <input class="form-control" id="inputCaptainPhoneNumber" name="inputCaptainPhoneNumber" type="tel" value="{% if id is defined %}{{ phoneNumber }}{% endif %}">
             </div>
 
             <div class="form-group">
                 <label for="selectVolleyballCourt"></label>
                 <select class="custom-select" id="selectVolleyballCourt" name="selectVolleyballCourt" required>
-                    <option value="1" selected>Terrain 1</option>
+                    <option value="1">Terrain 1</option>
                     <option value="2">Terrain 2</option>
                 </select>
             </div>
