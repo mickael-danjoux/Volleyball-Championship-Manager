@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="col-12 col-md-6 col-lg-5 mx-auto d-flex flex-column">
+        <h1 class="mb-4 align-self-start">Ajouter un championnat</h1>
+
+        <form method="post">
+
+            <div class="form-group">
+                <label for="championshipName">Nom du championnat</label>
+                <input type="text" class="form-control" id="championshipName" name="championshipName" placeholder="Entrez le nom du championnat" value="{{ championshipName }}" required="required">
+                <div class="invalid-feedback">Coucou</div>
+            </div>
+
+            <input type="hidden" name="championshipId" value="{{ championshipId }}">
+
+            <div class="d-flex justify-content-between">
+                <button class="btn btn-primary" type="reset">Réinitialiser</button>
+                <button class="btn btn-primary" type="submit">Ajouter</button>
+            </div>
+
+        </form>
+    </div>
+
+{% endblock %}
