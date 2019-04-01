@@ -28,7 +28,9 @@ class TeamController extends AbstractController
                 ->getRepository(Team::class)
                 ->findAll();
 
-            return $this->render('team/team.list.html.twig', ['teams' => $teams], new Response(200));
+            $clubId = $req->get("clubId");
+
+            return $this->render('team/team.list.html.twig', ['teams' => $teams, "clubId" => $clubId], new Response(200));
         }
 
         return null;

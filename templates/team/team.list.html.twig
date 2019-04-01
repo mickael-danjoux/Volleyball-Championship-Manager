@@ -12,7 +12,7 @@
             </form>
         </nav>
         <nav class="navbar navbar-dark bg-light">
-            <a href="{{ url('team', {'id':club.id}) }}"><button class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter une équipe</button></a>
+            <a href="{{ url('team', {'clubId':clubId}) }}"><button class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter une équipe</button></a>
         </nav>
         <div class="list-group">
             {% for team in teams %}
