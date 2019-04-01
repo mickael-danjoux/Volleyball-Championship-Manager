@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="col-md-5 mx-auto">
+        <h4 class="text-center mb-4">Gérer les équipes</h4>
+        <nav class="navbar navbar-light bg-light">
+            <form class="form-inline mx-auto" method="POST">
+                <input class="form-control mr-sm-2" type="search" placeholder="Rechercher une équipe..." aria-label="Search" name="searchTeam">
+                <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Rechercher</button>
+            </form>
+            <form method="GET">
+                <button class="btn btn-outline-secondary">Afficher toutes les équipes du club</button>
+            </form>
+        </nav>
+        <nav class="navbar navbar-dark bg-light">
+            <a href="{{ url('team', {'clubId':clubId}) }}"><button class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter une équipe</button></a>
+        </nav>
+        <div class="list-group">
+            {% for team in teams %}
+                {% if team.active == 0 %}
+                    <span class="list-group-item text-danger">
+                {% else %}
+                    <span class="list-group-item">
+                {% endif %}
+                    {{ team.name }} - {{ team.managerLastName }} {{ team.managerFirstName }}
+                        <div class="text-right">
+                            <a href="{{ url('team', {'id':team.id}) }}"
+                               class="btn btn-outline-primary">Voir la page</a>
+                            <button class="btn btn-outline-danger supprimer" data-Id="{{ team.id }}">Supprimer</button>
+                        </div>
+                    </span>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Non</button>
+                    <button type="button" class="btn btn-success">Oui</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        $(document).ready(function(){
+            let id;
+            $('.supprimer').on('click', function() {
+                id = $(this).attr('data-Id');
+                $('.modal-body').find('p').text("Souhaitez-vous vraiment supprimer cette équipe?");
+                $('#modal').modal('show');
+            });
+            $('#modal').on('show.bs.modal', e => {
+                $(this).find('.btn-success').on('click', function(){
+                    $.ajax({
+                        url: '/team/form',
+                        type: 'DELETE',
+                        data: {id:id}
+                    });
+                });
+            });
+        })
+    </script>
+{% endblock %}

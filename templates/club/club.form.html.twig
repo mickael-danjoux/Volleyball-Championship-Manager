@@ -4,7 +4,12 @@
         {% if id is not defined %}
             <h4 class="text-center mb-4">Ajouter un club</h4>
         {% else %}
-            <h4 class="text-center mb-4">Fiche du club</h4>
+            <h4 class="text-center">Club</h4>
+            <ul class="nav nav-tabs">
+                <li class="nav-item"><a class="nav-link active" href="">Informations</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url('club-team', {'clubId':id}) }}">Équipes</a></li>
+                <li class="nav-item"><a class="nav-link" href="">Terrains</a></li>
+            </ul>
         {% endif %}
         <form method="POST">
             <input class="d-none" id="inputId" name="id" value="{% if id is defined %}{{ id }}{% endif %}"/>

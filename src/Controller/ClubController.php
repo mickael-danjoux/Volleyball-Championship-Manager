@@ -14,9 +14,10 @@ class ClubController extends AbstractController
     /**
      * @Route("/club", name="club")
      */
-    public function getClubs(Request $req) {
+    public function getClubs(Request $req)
+    {
 
-        if ($req->isMethod('GET')){
+        if ($req->isMethod('GET')) {
 
             $clubs = $this->getDoctrine()
                 ->getRepository(Club::class)
@@ -24,12 +25,12 @@ class ClubController extends AbstractController
 
             return $this->render('club/club.list.html.twig', ['clubs' => $clubs], new Response(200));
 
-        } else if ($req->isMethod('POST')){
+        } else if ($req->isMethod('POST')) {
 
             $clubName = $req->get("searchClub");
             $clubs = $this->getDoctrine()
                 ->getRepository(Club::class)
-                    ->findBy(array('name' => $clubName));
+                ->findBy(array('name' => $clubName));
 
             return $this->render('club/club.list.html.twig', ['clubs' => $clubs], new Response(200));
         }
@@ -40,9 +41,10 @@ class ClubController extends AbstractController
     /**
      * @Route("/club/form", name="club-form")
      */
-    public function clubForm(Request $req) {
+    public function clubForm(Request $req)
+    {
 
-        if ($req->isMethod('GET')){
+        if ($req->isMethod('GET')) {
 
             if ($req->get('id') != null) {
 
@@ -78,7 +80,7 @@ class ClubController extends AbstractController
             $active = $req->get("active");
 
             $club = $this->getDoctrine()->getRepository(Club::class)->find($id);
-            if($club !== null) {
+            if ($club !== null) {
                 $club->setAccount($name, $managerLastName, $managerFirstName, $email, $phoneNumber, $active);
             } else {
                 $club = new Club($email, $password, $phoneNumber, $name, $managerFirstName, $managerLastName, $active);
