@@ -1,42 +1,80 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     <div class="col-md-4 mx-auto">
-        <h4 class="text-center mb-4">Formulaire club</h4>
+        {% if id is not defined %}
+            <h4 class="text-center mb-4">Ajouter un club</h4>
+        {% else %}
+            <h4 class="text-center mb-4">Fiche du club</h4>
+        {% endif %}
         <form method="POST">
+            <input class="d-none" id="inputId" name="id" value="{% if id is defined %}{{ id }}{% endif %}"/>
             <div class="form-group">
                 <label for="inputClubName">Nom du club</label>
-                <input class="form-control" id="inputClubName" type="text" name="name" required/>
+                <input class="form-control" id="inputClubName" type="text" name="name" value="{% if name is defined %}{{ name }}{% endif %}" required/>
             </div>
             <div class="form-group">
                 <label for="inputManagerLastName">Nom du référent</label>
-                <input class="form-control" id="inputManagerLastName" type="text" name="managerLastName" required/>
+                <input class="form-control" id="inputManagerLastName" type="text" name="managerLastName" value="{% if managerLastName is defined %}{{ managerLastName }}{% endif %}" required/>
             </div>
             <div class="form-group">
                 <label for="inputManagerFirstName">Prénom du référent</label>
-                <input class="form-control" id="inputManagerFirstName" type="text" name="managerFirstName" required/>
+                <input class="form-control" id="inputManagerFirstName" type="text" name="managerFirstName" value="{% if managerFirstName is defined %}{{ managerFirstName }}{% endif %}" required/>
             </div>
             <div class="form-group">
                 <label for="inputEmail">Email</label>
-                <input class="form-control" id="inputEmail" type="email" name="email" required/>
+                <input class="form-control" id="inputEmail" type="email" name="email" value="{% if email is defined %}{{ email }}{% endif %}" required/>
             </div>
+            {% if id is not defined %}
             <div class="form-group">
                 <label for="inputPassword">Password</label>
                 <input class="form-control" id="inputPassword" type="password" name="password" required/>
             </div>
+            {% endif %}
             <div class="form-group">
                 <label for="inputPhoneNumber">Numéro de téléphone</label>
-                <input class="form-control" id="inputPhoneNumber" type="text" name="phoneNumber" required/>
+                <input class="form-control" id="inputPhoneNumber" type="text" name="phoneNumber" value="{% if phoneNumber is defined %}{{ phoneNumber }}{% endif %}" required/>
             </div>
             <div class="form-group">
                 <label for="inputActive">Club actif</label>
                 <select class="custom-select" id="inputActive" name="active" required>
-                    <option value="1" selected>Oui</option>
-                    <option value="0">Non</option>
+                    {% if (active is defined) %}
+                        {% if active %}
+                            <option value="1" selected>Oui</option>
+                            <option value="0">Non</option>
+                        {% else %}
+                            <option value="1">Oui</option>
+                            <option value="0" selected>Non</option>
+                        {% endif %}
+                    {% else %}
+                        <option value="1" selected>Oui</option>
+                        <option value="0">Non</option>
+                    {% endif %}
                 </select>
             </div>
             <div class="w-100 text-right">
-                <input class="btn btn-primary" type="submit" value="Enregistrer"/>
+                <input class="btn btn-primary" id="btnSaveClub" type="submit" value="Enregistrer"/>
             </div>
         </form>
     </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        $(document).ready(function(){
+            /*$('#btnSaveClub').on('click', function() {
+                $.post (
+                    "/club/form",
+                    {
+                        id:$('#inputId').val(),
+                        name:$('#inputClubName').val(),
+                        managerLastName:$('#inputManagerLastName').val(),
+                        managerFirstName:$('#inputManagerFirstName').val(),
+                        email:$('#inputEmail').val(),
+                        password:$('#inputPassword').val(),
+                        phoneNumber:$('#inputPhoneNumber').val(),
+                        active:$('#inputActive').val()
+                    }
+                )
+            });*/
+        })
+    </script>
 {% endblock %}
