@@ -19,7 +19,7 @@
                 {% endif %}
                     {{ team.name }} - {{ team.managerLastName }} {{ team.managerFirstName }}
                         <div class="text-right">
-                            <a href="{{ url('team', {'id':team.id}) }}"
+                            <a href="{{ url('team', {'clubId':club.id, 'teamId':team.id}) }}"
                                class="btn btn-outline-primary">Voir la page</a>
                             <button class="btn btn-outline-danger supprimer" data-Id="{{ team.id }}">Supprimer</button>
                         </div>
