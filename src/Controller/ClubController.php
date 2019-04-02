@@ -52,13 +52,7 @@ class ClubController extends AbstractController
                 $club = $this->getDoctrine()->getRepository(Club::class)->find($id);
 
                 return $this->render('club/club.form.html.twig', [
-                    'clubId' => $id,
-                    'name' => $club->getName(),
-                    'managerLastName' => $club->getManagerLastName(),
-                    'managerFirstName' => $club->getManagerFirstName(),
-                    'email' => $club->getEmail(),
-                    'phoneNumber' => $club->getPhoneNumber(),
-                    'active' => $club->getActive()
+                    'club' => $club
                 ], new Response(200));
 
             } else {

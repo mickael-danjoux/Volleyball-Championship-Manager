@@ -45,25 +45,54 @@ class TeamController extends AbstractController
     }
 
     /**
-     * @Route("team/form",name="team")
+     * @Route("/team/form",name="team")
      */
-    public function addTeam(Request $req){
+    public function teamForm(Request $req){
 
-        if ($req->isMethod("POST")){
+        if ($req->isMethod('GET')) {
+
+            if ($req->get('teamId') != null) {
+
+                $teamId = $req->get('teamId');
+                $team = $this->getDoctrine()->getRepository(Team::class)->find($teamId);
+
+                return $this->render('team/team.form.html.twig', [
+                    'team' => $team
+                ], new Response(200));
+
+            } else {
+
+                return $this->render('team/team.form.html.twig', [], new Response(200));
+            }
+
+        } else if ($req->isMethod("POST")){
+
             $entityManager = $this->getDoctrine()->getManager();
+
             $clubId = $req->get("clubId");
             $club = $this->getDoctrine()->getRepository(Club::class)->find($clubId);
 
-            $lastName = $req->get("inputCaptainLastName");
-            $firstName = $req->get("inputCaptainFirstName");
-            $mail = $req->get("inputCaptainMail");
-            $phoneNumber = $req->get("inputCaptainPhoneNumber");
-            $volleyballCourtId = $req->get("selectVolleyballCourt");
+            $teamId = $req->get("teamId");
+            $teamName = $req->get("teamName");
+            $captainLastName = $req->get("captainLastName");
+            $captainFirstName = $req->get("captainFirstName");
+            $email = $req->get("captainEmail");
+            $password = $req->get("password");
+            $phoneNumber = $req->get("captainPhoneNumber");
+            $volleyballCourtId = $req->get("volleyballCourt");
+            $active = $req->get("active");
 
-            $team = new Team(1, $club, $mail, "", $phoneNumber, "TeamName", $firstName, $lastName, 1);
+            $team = $this->getDoctrine()->getRepository(Team::class)->find($teamId);
+            if ($team !== null) {
+                $team->setAccount($teamName, $captainLastName, $captainFirstName, $email, $phoneNumber, $active);
+            } else {
+                $team = new Team(1, $club, $email, $password, $phoneNumber, $teamName, $captainLastName, $captainFirstName, 1);
+            }
+
             $entityManager->persist($team);
             $entityManager->flush();
-            return $this->render('team/team.form.html.twig');
+
+            return $this->redirectToRoute('teams', ['clubId' => $clubId]);
         }
 
         $clubId = $req->get('clubId');

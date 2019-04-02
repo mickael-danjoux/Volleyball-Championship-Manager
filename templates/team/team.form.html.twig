@@ -1,38 +1,60 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     <div class="col-md-5 mx-auto">
-        <h4 class="text-center mb-4">Formulaire team</h4>
+        <h4 class="text-center mb-4">{% if team.club.id is defined %}{{ team.club.name }} - {{ team.name }}{% else %}Ajouter une équipe{% endif %}</h4>
         <form method="POST">
-            <h5 class="text-center mb-4">Nom du club n</h5>
-            <input type="hidden" name="clubId" value="{% if clubId is defined %}{{ clubId }}{% endif %}">
+            <input type="hidden" name="clubId" value="{% if team.club.id is defined %}{{ team.club.id }}{% endif %}">
+            <input type="hidden" name="teamId" value="{% if team.id is defined %}{{ team.id }}{% endif %}">
+            <div class="form-group">
+                <label for="inputTeamName">Nom du capitaine</label>
+                <input class="form-control" id="inputTeamName" type="text" name="teamName" value="{% if team.id is defined %}{{ team.name }}{% endif %}" required/>
+            </div>
             <div class="form-group">
                 <label for="inputCaptainLastName">Nom du capitaine</label>
-                <input class="form-control" id="inputCaptainLastName" type="text" name="inputCaptainLastName" value="{% if id is defined %}{{ lastName }}{% endif %}" required/>
+                <input class="form-control" id="inputCaptainLastName" type="text" name="captainLastName" value="{% if team.id is defined %}{{ team.managerLastName }}{% endif %}" required/>
             </div>
-
             <div class="form-group">
                 <label for="inputCaptainFirstName">Prénom du capitaine</label>
-                <input class="form-control" id="inputCaptainFirstName" type="text" name="inputCaptainFirstName" value="{% if id is defined %}{{ firstName }}{% endif %}" required/>
+                <input class="form-control" id="inputCaptainFirstName" type="text" name="captainFirstName" value="{% if team.id is defined %}{{ team.managerFirstName }}{% endif %}" required/>
             </div>
-
             <div class="form-group">
-                <label for="inputCaptainMail">Email du capitaine</label>
-                <input class="form-control" id="inputCaptainMail" type="email" name="inputCaptainMail" value="{% if id is defined %}{{ mail }}{% endif %}" required/>
+                <label for="inputCaptainEmail">Email du capitaine</label>
+                <input class="form-control" id="inputCaptainEmail" type="email" name="captainEmail" value="{% if team.id is defined %}{{ team.email }}{% endif %}" required/>
             </div>
-
+            {% if team.id is not defined %}
+                <div class="form-group">
+                    <label for="inputPassword">Password</label>
+                    <input class="form-control" id="inputPassword" type="password" name="password" required/>
+                </div>
+            {% endif %}
             <div class="form-group">
                 <label for="inputCaptainPhoneNumber">Téléphone du capitaine</label>
-                <input class="form-control" id="inputCaptainPhoneNumber" name="inputCaptainPhoneNumber" type="tel" value="{% if id is defined %}{{ phoneNumber }}{% endif %}">
+                <input class="form-control" id="inputCaptainPhoneNumber" name="captainPhoneNumber" type="tel" value="{% if team.id is defined %}{{ team.phoneNumber }}{% endif %}">
             </div>
-
             <div class="form-group">
                 <label for="selectVolleyballCourt"></label>
-                <select class="custom-select" id="selectVolleyballCourt" name="selectVolleyballCourt" required>
+                <select class="custom-select" id="selectVolleyballCourt" name="volleyballCourt" required>
                     <option value="1">Terrain 1</option>
                     <option value="2">Terrain 2</option>
                 </select>
             </div>
-
+            <div class="form-group">
+                <label for="inputActive">Club actif</label>
+                <select class="custom-select" id="inputActive" name="active" required>
+                    {% if (team.active is defined) %}
+                        {% if team.active %}
+                            <option value="1" selected>Oui</option>
+                            <option value="0">Non</option>
+                        {% else %}
+                            <option value="1">Oui</option>
+                            <option value="0" selected>Non</option>
+                        {% endif %}
+                    {% else %}
+                        <option value="1" selected>Oui</option>
+                        <option value="0">Non</option>
+                    {% endif %}
+                </select>
+            </div>
             <div class="w-100 text-right">
                 <input class="btn btn-primary" type="submit" value="Enregistrer"/>
             </div>
