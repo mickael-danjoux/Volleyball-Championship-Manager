@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="col-12 col-md-6 col-lg-5 mx-auto d-flex flex-column">
+        <h1 class="mb-4 align-self-start">Nom du championnat</h1>
+
+        <div class="d-flex flex-column">
+            <a class="btn btn-light m-2" href="">Composition de la poule</a>
+            <a class="btn btn-light m-2" href="">Générer Calendrier</a>
+            <a class="btn btn-light m-2" href="">Règles des points</a>
+        </div>
+
+        <form class="d-flex justify-content-end mt-5" method="post">
+            <button class="btn btn-primary" type="submit">Démarrer le championnat</button>
+        </form>
+    </div>
+
+{% endblock %}
