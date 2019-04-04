@@ -39,6 +39,10 @@
 {% block javascripts %}
     <script>
     $(document).ready(function(){
+        var startTimes = $('.timeSlotStartTime');
+        var endTimes = $('.timeSlotEndTime');
+        var startTime = parseInt($('#inputTimeSlotStartTime').val().replace(':', ''));
+        var endTime = parseInt($('#inputTimeSlotEndTime').val().replace(':', ''));
         $(document).on('click', '.addTimeSlot', function(){
             var alreadyExist = false;
 
