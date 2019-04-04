@@ -51,7 +51,7 @@ class TeamController extends AbstractController
 
         if ($req->isMethod('GET')) {
 
-            if ($req->get('teamId') != null) {
+            if ($req->get('teamId') != null && $req->get('clubId') != null) {
 
                 $teamId = $req->get('teamId');
                 $team = $this->getDoctrine()->getRepository(Team::class)->find($teamId);

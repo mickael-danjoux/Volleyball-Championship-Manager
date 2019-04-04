@@ -8,7 +8,7 @@
             <ul class="nav nav-tabs">
                 <li class="nav-item"><a class="nav-link active" href="">Informations</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ url('teams', {'clubId':club.id}) }}">Équipes</a></li>
-                <li class="nav-item"><a class="nav-link" href="">Terrains</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url('courts', {'clubId':club.id}) }}">Terrains</a></li>
             </ul>
         {% endif %}
         <form method="POST">
