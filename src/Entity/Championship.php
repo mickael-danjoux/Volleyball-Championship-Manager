@@ -11,8 +11,8 @@ class Championship
 {
     /**
      * @ORM\Id
+     * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="NONE")
      */
     private $id;
 
@@ -22,19 +22,24 @@ class Championship
     private $name;
 
     /**
-     * @ORM\Embedded(class="PointSpecification")
+     * @ORM\Column(type="smallint")
+     */
+    private $began;
+
+    /**
+     * @ORM\Embedded(class="SpecificationPoint")
      */
     private $pointSpecification;
 
     /**
-     * @ORM\OneToMany(targetEntity="Group", mappedBy="id")
+     * @ORM\OneToMany(targetEntity="App\Entity\Group", mappedBy="championship")
      */
-    private $groups = [];
+    private $groups;
 
-    public function __construct(int $id, string $name, PointSpecification $pointSpecification)
+    public function __construct(string $name, bool $began, SpecificationPoint $pointSpecification)
     {
-        $this->id = $id;
         $this->name = $name;
+        $this->began = $began;
         $this->pointSpecification = $pointSpecification;
     }
 
@@ -43,12 +48,27 @@ class Championship
         $this->groups[] = $group;
     }
 
+    public function changeName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function start(): void
+    {
+        $this->began = true;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
     public function getName(): string
     {
         return $this->name;
     }
 
-    public function getPointSpecification(): PointSpecification
+    public function getPointSpecification(): SpecificationPoint
     {
         return $this->pointSpecification;
     }
@@ -58,5 +78,8 @@ class Championship
         return $this->groups;
     }
 
-
+    public function getBegan(): bool
+    {
+        return $this->began;
+    }
 }

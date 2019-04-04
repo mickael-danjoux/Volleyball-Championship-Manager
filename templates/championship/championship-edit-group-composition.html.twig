@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="col-12 col-md-6 col-lg-5 mx-auto d-flex flex-column">
+        <h1 class="mb-4 align-self-start">{{ championship.name }}</h1>
+
+        <div class="d-flex flex-column border rounded my-3 pt-3 px-3">
+            <span class="championship-subtitle align-self-center mb-4">Ajouter une équipe</span>
+
+            <div class="d-flex flex-wrap justify-content-around">
+
+                <form class="d-flex flex-column mb-4" method="get">
+                    <select class="form-control mb-2" name="club">
+                        <option value="0" {% if selectedClub == 0 %}selected="selected"{% endif %}>Choisir un club</option>
+
+                        {% for club in clubs %}
+
+                            <option value="{{ club.id }}" {% if selectedClub == club.id %}selected="selected"{% endif %}>{{ club.name }}</option>
+
+                        {% endfor %}
+
+
+                    </select>
+
+                    <button type="submit" class="btn btn-primary">Selectionner</button>
+                </form>
+
+                <form class="d-flex flex-column mb-4">
+                    <select class="form-control mb-2" name="team">
+                        <option value="0">Choisir une équipe</option>
+
+                        {% for team in teams %}
+
+                            <option value="{{ team.id }}">{{ team.name }}</option>
+
+                        {% endfor %}
+
+                    </select>
+
+                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                </form>
+
+            </div>
+        </div>
+
+        <form class="d-flex flex-column flex-sm-row mx-auto mb-3" method="get">
+            <select class="form-control mb-2 mb-sm-0 mx-sm-2" name="group">
+                <option value="0">Choisir une poule</option>
+
+                {% for group in groups %}
+
+                    <option value="{{ group.id }}" {% if selectedGroup == group.id %}selected="selected"{% endif %}>{{ group.name }}</option>
+
+                {% endfor %}
+
+            </select>
+
+            <button type="submit" class="btn btn-primary">Selectionner</button>
+        </form>
+
+        <table class="table">
+            <tr>
+                <th>Nom de l'équipe</th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>IUT Lyon1</td>
+                <td>
+                    <a href="">Supprimer</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Viriat</td>
+                <td>
+                    <a href="">Supprimer</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Céyzériat</td>
+                <td>
+                    <a href="">Supprimer</a>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+{% endblock %}

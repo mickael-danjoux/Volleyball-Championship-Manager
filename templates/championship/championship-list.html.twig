@@ -14,9 +14,12 @@
                 {% for championship in championships %}
 
                     <li class="list-group-item m-2 rounded">
-                        <a class="d-flex flex-column" href="">
-                            <span class="align-self-start">Nom du championnat</span>
-                            <span class="align-self-end">Jour 2/12</span>
+                        <a class="d-flex flex-column" href="{{ url( 'championship_page' , {championshipId: championship.id}) }}">
+                            <span class="align-self-start">{{ championship.name }}</span>
+
+                            {% if championship.began %}
+                                <span class="align-self-end">Jour 2/12</span>
+                            {% endif %}
                         </a>
                     </li>
 

@@ -11,8 +11,8 @@ class Group
 {
     /**
      * @ORM\Id
+     * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="NONE")
      */
     private $id;
 
@@ -22,19 +22,19 @@ class Group
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Team", mappedBy="id")
-     */
-    private $teams = [];
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Championship", inversedBy="groups")
      */
     private $championship;
 
-    public function __construct(int $id, string $name)
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Team", mappedBy="id")
+     */
+    private $teams = [];
+
+    public function __construct(string $name, Championship $championship)
     {
-        $this->id = $id;
         $this->name = $name;
+        $this->championship = $championship;
     }
 
     public function addTeam(Team $team): void
@@ -45,5 +45,10 @@ class Group
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function getChampionship(): Championship
+    {
+        return $this->championship;
     }
 }
