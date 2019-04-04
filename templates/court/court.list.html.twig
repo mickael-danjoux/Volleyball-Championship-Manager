@@ -1,27 +1,23 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     <div class="col-md-5 mx-auto">
-        <h4 class="text-center mb-4">{{ club.name }} - Gérer les équipes</h4>
+        <h4 class="text-center mb-4">{{ club.name }} - Gérer les terrains</h4>
         <ul class="nav nav-tabs">
             <li class="nav-item"><a class="nav-link" href="{{ url('club', {'clubId':club.id}) }}">Informations</a></li>
-            <li class="nav-item"><a class="nav-link active" href="{{ url('teams', {'clubId':club.id}) }}">Équipes</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url('courts', {'clubId':club.id}) }}">Terrains</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url('teams', {'clubId':club.id}) }}">Équipes</a></li>
+            <li class="nav-item"><a class="nav-link active" href="{{ url('courts', {'clubId':club.id}) }}">Terrains</a></li>
         </ul>
         <nav class="navbar navbar-dark bg-light">
-            <a href="{{ url('team', {'clubId':club.id}) }}"><button class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter une équipe</button></a>
+            <a href="{{ url('court', {'clubId':club.id}) }}"><button class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter un terrain</button></a>
         </nav>
         <div class="list-group">
-            {% for team in teams %}
-                {% if team.active == 0 %}
-                    <span class="list-group-item text-danger">
-                {% else %}
+            {% for court in courts %}
                     <span class="list-group-item">
-                {% endif %}
-                    {{ team.name }} - {{ team.managerLastName }} {{ team.managerFirstName }}
+                        {{ court.place }}
                         <div class="text-right">
-                            <a href="{{ url('team', {'clubId':club.id, 'teamId':team.id}) }}"
+                            <a href="{{ url('court', {'clubId':club.id, 'courtId':court.id}) }}"
                                class="btn btn-outline-primary">Voir la page</a>
-                            <button class="btn btn-outline-danger supprimer" data-Id="{{ team.id }}">Supprimer</button>
+                            <button class="btn btn-outline-danger supprimer" data-Id="{{ court.id }}">Supprimer</button>
                         </div>
                     </span>
             {% endfor %}
@@ -54,7 +50,7 @@
             $('#modal').on('show.bs.modal', e => {
                 $(this).find('.btn-success').on('click', function(){
                     $.ajax({
-                        url: '/team/form',
+                        url: '/court/form',
                         type: 'DELETE',
                         data: {id:id}
                     });

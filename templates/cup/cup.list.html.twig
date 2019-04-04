@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="col-md-5 mx-auto">
+        <h4 class="text-center mb-4">Gérer les coupes</h4>
+        <nav class="navbar navbar-dark bg-light">
+            <a href="{{ url('cups') }}"><button class="btn btn-primary"><i class="fas fa-plus"></i> Créer une coupe</button></a>
+        </nav>
+        <div class="list-group">
+            {% for cup in cups %}
+                <span class="list-group-item text-danger">
+                    {{ cup.name }} - {{ cup.managerLastName }} {{ cup.managerFirstName }}
+                </span>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
