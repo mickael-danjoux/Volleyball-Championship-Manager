@@ -50,20 +50,24 @@ class TeamController extends AbstractController
     public function teamForm(Request $req){
 
         if ($req->isMethod('GET')) {
+            if($req ->get('clubId') != null){
+                if ($req->get('teamId') != null && $req->get('clubId') != null) {
 
-            if ($req->get('teamId') != null && $req->get('clubId') != null) {
+                    $teamId = $req->get('teamId');
+                    $team = $this->getDoctrine()->getRepository(Team::class)->find($teamId);
 
-                $teamId = $req->get('teamId');
-                $team = $this->getDoctrine()->getRepository(Team::class)->find($teamId);
+                    return $this->render('team/team.form.html.twig', [
+                        'team' => $team
+                    ], new Response(200));
 
-                return $this->render('team/team.form.html.twig', [
-                    'team' => $team
-                ], new Response(200));
+                } else {
 
-            } else {
-
-                return $this->render('team/team.form.html.twig', [], new Response(200));
+                    return $this->render('team/team.form.html.twig', [], new Response(200));
+                }
+            }else{
+                return $this ->redirectToRoute('clubs');
             }
+
 
         } else if ($req->isMethod("POST")){
 
