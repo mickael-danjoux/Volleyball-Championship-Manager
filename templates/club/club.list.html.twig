@@ -14,22 +14,24 @@
         <nav class="navbar navbar-dark bg-light">
             <a href="{{ url('club') }}"><button class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter un club</button></a>
         </nav>
-        <div class="list-group">
-            {% for club in clubs %}
-                {% if club.active == 0 %}
-                    <span class="list-group-item text-danger">
-                {% else %}
-                    <span class="list-group-item">
-                {% endif %}
-                    {{ club.name }} - {{ club.managerLastName }} {{ club.managerFirstName }}
-                        <div class="text-right">
-                            <a href="{{ url('club', {'clubId':club.id}) }}"
-                               class="btn btn-outline-primary">Voir la page</a>
-                            <button class="btn btn-outline-danger supprimer" data-Id="{{ club.id }}">Supprimer</button>
-                        </div>
-                    </span>
-            {% endfor %}
-        </div>
+        <span>
+            <div class="list-group">
+                {% for club in clubs %}
+                    {% if club.active == 0 %}
+                        <span class="list-group-item text-danger">
+                    {% else %}
+                        <span class="list-group-item">
+                    {% endif %}
+                        {{ club.name }} - {{ club.managerLastName }} {{ club.managerFirstName }}
+                            <div class="text-right">
+                                <a href="{{ url('club', {'clubId':club.id}) }}"
+                                   class="btn btn-outline-primary">Voir la page</a>
+                                <button class="btn btn-outline-danger supprimer" data-Id="{{ club.id }}">Supprimer</button>
+                            </div>
+                        </span>
+                {% endfor %}
+            </div>
+        </span>
     </div>
 
     <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -58,10 +60,12 @@
             $('#modal').on('show.bs.modal', e => {
                 $(this).find('.btn-success').on('click', function(){
                     $.ajax({
-                        url: '/club/form',
+                        url: '/club',
                         type: 'DELETE',
                         data: {id:id}
                     });
+                    $('#modal').modal('hide');
+                    $(".list-group").parent().load(document.URL + " .list-group");
                 });
             });
         })

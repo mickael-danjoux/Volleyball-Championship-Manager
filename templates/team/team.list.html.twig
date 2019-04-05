@@ -10,22 +10,24 @@
         <nav class="navbar navbar-dark bg-light">
             <a href="{{ url('team', {'clubId':club.id}) }}"><button class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter une équipe</button></a>
         </nav>
-        <div class="list-group">
-            {% for team in teams %}
-                {% if team.active == 0 %}
-                    <span class="list-group-item text-danger">
-                {% else %}
-                    <span class="list-group-item">
-                {% endif %}
-                    {{ team.name }} - {{ team.managerLastName }} {{ team.managerFirstName }}
-                        <div class="text-right">
-                            <a href="{{ url('team', {'clubId':club.id, 'teamId':team.id}) }}"
-                               class="btn btn-outline-primary">Voir la page</a>
-                            <button class="btn btn-outline-danger supprimer" data-Id="{{ team.id }}">Supprimer</button>
-                        </div>
-                    </span>
-            {% endfor %}
-        </div>
+        <span>
+            <div class="list-group">
+                {% for team in teams %}
+                    {% if team.active == 0 %}
+                        <span class="list-group-item text-danger">
+                    {% else %}
+                        <span class="list-group-item">
+                    {% endif %}
+                        {{ team.name }} - {{ team.managerLastName }} {{ team.managerFirstName }}
+                            <div class="text-right">
+                                <a href="{{ url('team', {'clubId':club.id, 'teamId':team.id}) }}"
+                                   class="btn btn-outline-primary">Voir la page</a>
+                                <button class="btn btn-outline-danger supprimer" data-Id="{{ team.id }}">Supprimer</button>
+                            </div>
+                        </span>
+                {% endfor %}
+            </div>
+        </span>
     </div>
 
     <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -54,10 +56,12 @@
             $('#modal').on('show.bs.modal', e => {
                 $(this).find('.btn-success').on('click', function(){
                     $.ajax({
-                        url: '/team/form',
+                        url: '/club/team',
                         type: 'DELETE',
                         data: {id:id}
                     });
+                    $('#modal').modal('hide');
+                    $(".list-group").parent().load(document.URL + " .list-group");
                 });
             });
         })

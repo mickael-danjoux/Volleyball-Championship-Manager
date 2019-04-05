@@ -37,6 +37,12 @@ class Group
         $this->championship = $championship;
     }
 
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function addTeam(Team $team): void
     {
         $this->teams[] = $team;
@@ -50,5 +56,10 @@ class Group
     public function getChampionship(): Championship
     {
         return $this->championship;
+    }
+
+    public function getTeams()
+    {
+        return $this->teams;
     }
 }

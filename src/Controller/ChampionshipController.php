@@ -100,10 +100,10 @@ class ChampionshipController extends AbstractController
         if( $request->getMethod() == "POST" ){
             $groupName = $request->get("groupName");
 
-            $group = new Group( $groupName, $championship );
+            $group = new Group($groupName, $championship);
 
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist( $group );
+            $entityManager->persist($group);
             $entityManager->flush();
         }
 

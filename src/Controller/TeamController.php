@@ -39,6 +39,18 @@ class TeamController extends AbstractController
                 ->findBy(array('club' => $club));
 
             return $this->render('team/team.list.html.twig', ['teams' => $teams, 'club' => $club], new Response(200));
+
+        } else if ($req->isMethod('DELETE')) {
+
+            $entityManager = $this->getDoctrine()->getManager();
+
+            $id = $req->get("id");
+            $team = $this->getDoctrine()->getRepository(Team::class)->find($id);
+
+            $entityManager->remove($team);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('teams');
         }
 
         return null;
