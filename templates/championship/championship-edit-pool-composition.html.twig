@@ -45,12 +45,12 @@
         </div>
 
         <form class="d-flex flex-column flex-sm-row mx-auto mb-3" method="get">
-            <select class="form-control mb-2 mb-sm-0 mx-sm-2" name="group">
+            <select class="form-control mb-2 mb-sm-0 mx-sm-2" name="pool">
                 <option value="0">Choisir une poule</option>
 
-                {% for group in groups %}
+                {% for pool in championship.pools %}
 
-                    <option value="{{ group.id }}" {% if selectedGroup == group.id %}selected="selected"{% endif %}>{{ group.name }}</option>
+                    <option value="{{ pool.id }}" {% if selectedPool == pool.id %}selected="selected"{% endif %}>{{ pool.name }}</option>
 
                 {% endfor %}
 
@@ -64,24 +64,28 @@
                 <th>Nom de l'équipe</th>
                 <th></th>
             </tr>
-            <tr>
-                <td>IUT Lyon1</td>
-                <td>
-                    <a href="">Supprimer</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Viriat</td>
-                <td>
-                    <a href="">Supprimer</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Céyzériat</td>
-                <td>
-                    <a href="">Supprimer</a>
-                </td>
-            </tr>
+
+            {% if pool.championshipTeams | length > 0 %}
+
+                {% for team in pool.championshipTeams %}
+
+                    <tr>
+                        <td>{{ team.name }}</td>
+                        <td>
+                            <a href="">Supprimer</a>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+
+            {% else %}
+
+                <tr>
+                    <td>Il n'y a aucune équipe dans cette poule.</td>
+                </tr>
+
+            {% endif %}
+
         </table>
 
     </div>

@@ -5,9 +5,14 @@ namespace App\Controller;
 
 
 use App\Entity\Championship;
-use App\Entity\Group;
+use App\Entity\Pool;
 use App\Entity\SpecificationPoint;
+use App\Exception\ChampionshipNotFound;
+use App\Exception\PoolNotFound;
 use App\Form\ChampionshipEditType;
+use App\Repository\ChampionshipRepository;
+use App\Repository\PoolRepository;
+use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,39 +23,35 @@ class ChampionshipController extends AbstractController
     /**
      * @Route("/championship", name="championships_list");
      */
-    public function listChampionships(): Response
+    public function listChampionships(ChampionshipRepository $championshipRepository): Response
     {
-        $championships = $this->getDoctrine()->getRepository(Championship::class)->findAll();
+        $championships = $championshipRepository->getAll();
 
         return $this->render('championship/championship-list.html.twig', [
-            "championships" => $championships,
-            "areChampionships" => ( count($championships) > 0 )
+            "championships" => $championships
         ]);
     }
 
     /**
      * @Route("/championship/edit", name="championship_edit");
      */
-    public function editChampionship(Request $request): Response
+    public function editChampionship(Request $request, ChampionshipRepository $championshipRepository): Response
     {
         $championshipId = (int) $request->get("championshipId" );
         $championshipName = $request->get("championshipName" );
 
         if( $request->getMethod() === "POST" ){
 
-            $championship = $this->getDoctrine()->getRepository(Championship::class)->find( $championshipId );
-
-            if( $championship !== null ){
+            try{
+                $championship = $championshipRepository->get( $championshipId );
                 $championship->changeName( $championshipName );
             }
-            else{
+            catch(ChampionshipNotFound $exception){
                 $specificationPoint = new SpecificationPoint(3,0,-1,1);
                 $championship = new Championship($championshipName, false, $specificationPoint);
             }
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist( $championship );
-            $entityManager->flush();
+            $championshipRepository->save( $championship );
 
             return $this->redirectToRoute('championships_list');
         }
@@ -64,20 +65,19 @@ class ChampionshipController extends AbstractController
     /**
      * @Route("/championship/{championshipId}", name="championship_page")
      */
-    public function pageChampionship(int $championshipId, Request $request): Response
+    public function pageChampionship(int $championshipId, Request $request, ChampionshipRepository $championshipRepository): Response
     {
-        $championship = $this->getDoctrine()->getRepository(Championship::class)->find( $championshipId );
-
-        if( $championship === null ){
+        try{
+            $championship = $championshipRepository->get( $championshipId );
+        }
+        catch(ChampionshipNotFound $exception){
             return $this->redirectToRoute("championships_list");
         }
 
         if( $request->getMethod() === "POST" ){
-            $championship->start();
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist( $championship );
-            $entityManager->flush();
+            $championship->start();
+            $championshipRepository->save( $championship );
         }
 
         return $this->render('championship/championship-page.html.twig', [
@@ -86,58 +86,75 @@ class ChampionshipController extends AbstractController
     }
 
     /**
-     * @Route("/championship/{championshipId}/groups", name="championship_group")
+     * @Route("/championship/{championshipId}/pools", name="championship_pool")
      */
-    public function pageChampionshipGroups(int $championshipId, Request $request): Response
+    public function pageChampionshipGroups(int $championshipId, Request $request, ChampionshipRepository $championshipRepository, PoolRepository$poolRepository): Response
     {
-        $championship = $this->getDoctrine()->getRepository(Championship::class)->find( $championshipId );
-        $groupName = "";
-
-        if( $championship == null ){
+        try{
+            $championship = $championshipRepository->get( $championshipId );
+        }
+        catch(ChampionshipNotFound $exception){
             return $this->redirectToRoute("championships_list");
         }
 
+        $poolName = "";
+
         if( $request->getMethod() == "POST" ){
-            $groupName = $request->get("groupName");
+            $poolName = $request->get("poolName");
 
-            $group = new Group( $groupName, $championship );
+            $pool = new Pool( $poolName, $championship );
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist( $group );
-            $entityManager->flush();
+            $poolRepository->save( $pool );
+
+            return $this->redirectToRoute('championship_pool', [
+                "championshipId" => $championship->getId()
+            ]);
         }
 
-        return $this->render('championship/championship-edit-group.html.twig', [
+        return $this->render('championship/championship-edit-pool.html.twig', [
             "championship" => $championship,
-            "groupName" => $groupName
+            "poolName" => $poolName
         ]);
     }
 
     /**
-     * @Route("/championship/{championshipId}/groups/composition", name="championship_group_composition")
+     * @Route("/championship/{championshipId}/pools/composition", name="championship_pool_composition")
      */
-    public function pageChampionshipGroupsComposition(int $championshipId, Request $request): Response
+    public function pageChampionshipGroupsComposition(int $championshipId, Request $request, ChampionshipRepository $championshipRepository, PoolRepository $poolRepository): Response
     {
         $selectedClubId = (int) $request->get("club", 0);
-        $selectedGroupId = (int) $request->get("group", 0);
+        $selectedPoolId = (int) $request->get("group", 0);
 
-        $championship = $this->getDoctrine()->getRepository(Championship::class)->find( $championshipId );
-
-        if( $championship == null ){
+        try{
+            $championship = $championshipRepository->get( $championshipId );
+        }
+        catch(ChampionshipNotFound $exception){
             return $this->redirectToRoute("championships_list");
+        }
+
+        if( $selectedPoolId > 0 ){
+
+            try{
+                $pool = $poolRepository->get( $selectedPoolId );
+            }
+            catch(PoolNotFound $exception){
+                throw $exception;
+            }
+        }
+        else{
+            $pool = $championship->getPools()[0];
         }
 
         $clubs = [];
         $teams = [];
-        $groups = [];
 
-        return $this->render('championship/championship-edit-group-composition.html.twig', [
+        return $this->render('championship/championship-edit-pool-composition.html.twig', [
             "championship" => $championship,
             "selectedClub" => $selectedClubId,
             "clubs" => $clubs,
             "teams" => $teams,
-            "selectedGroup" => $selectedGroupId,
-            "groups" => $championship->getGroups()
+            "selectedPool" => $selectedPoolId,
+            "pool" => $pool
         ]);
     }
 }

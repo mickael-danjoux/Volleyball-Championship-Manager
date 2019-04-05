@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Embeddable
+ * @ORM\Embeddable()
  */
 class SpecificationPoint
 {
@@ -38,27 +38,23 @@ class SpecificationPoint
     }
 
 
-    public function getWinPoint(): int
+    public function getWinPoint(): ?int
     {
         return $this->winPoint;
     }
 
-    public function getLoosePoint(): int
+    public function getLoosePoint(): ?int
     {
         return $this->loosePoint;
     }
 
-    public function getForfeitPoint(): int
+    public function getForfeitPoint(): ?int
     {
         return $this->forfeitPoint;
     }
 
-    public function getLooseWithBonusPoint(): int
+    public function getLooseWithBonusPoint(): ?int
     {
         return $this->looseWithBonusPoint;
     }
-
-
-
-
 }
