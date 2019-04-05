@@ -31,7 +31,7 @@ class Match
     private $outsideTeam;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime",nullable=false)
      */
     private $matchDate;
 

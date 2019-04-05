@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="col-md-5 mx-auto">
+        <div class="list-group">
+            <h2>Match Aller</h2>
+            {% for match in matchListHome %}
+                <span class="list-group-item text-center">{{ match }}</span>
+
+            {% endfor %}
+        </div>
+        <div class="list-group">
+            <h2>Match Retour</h2>
+            {% for match in matchListAway %}
+                <span class="list-group-item text-center">{{ match }}</span>
+
+            {% endfor %}
+        </div>
+    </div>
+
+
+{% endblock %}

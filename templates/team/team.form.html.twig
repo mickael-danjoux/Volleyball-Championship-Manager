@@ -6,7 +6,7 @@
             <input type="hidden" name="clubId" value="{% if team.club.id is defined %}{{ team.club.id }}{% endif %}">
             <input type="hidden" name="teamId" value="{% if team.id is defined %}{{ team.id }}{% endif %}">
             <div class="form-group">
-                <label for="inputTeamName">Nom du capitaine</label>
+                <label for="inputTeamName">Nom de l'équipe</label>
                 <input class="form-control" id="inputTeamName" type="text" name="teamName" value="{% if team.id is defined %}{{ team.name }}{% endif %}" required/>
             </div>
             <div class="form-group">
