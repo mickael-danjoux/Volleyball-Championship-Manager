@@ -11,17 +11,23 @@
             <a href="{{ url('court', {'clubId':club.id}) }}"><button class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter un terrain</button></a>
         </nav>
         <span>
-            <div class="list-group">
-                {% for court in courts %}
-                        <span class="list-group-item">
-                            {{ court.place }} - {{ court.address }}
-                            <div class="text-right">
-                                <a href="{{ url('court', {'clubId':club.id, 'courtId':court.id}) }}"
-                                   class="btn btn-outline-primary">Voir la page</a>
-                                <button class="btn btn-outline-danger supprimer" data-Id="{{ court.id }}">Supprimer</button>
-                            </div>
-                        </span>
-                {% endfor %}
+            <div id="courts-list">
+                {% if courts is empty %}
+                    <div class="text-center mt-3">Aucun terrain enregistré.</div>
+                {% else %}
+                    <div class="list-group">
+                        {% for court in courts %}
+                                <span class="list-group-item">
+                                    {{ court.place }} - {{ court.address }}
+                                    <div class="text-right">
+                                        <a href="{{ url('court', {'clubId':club.id, 'courtId':court.id}) }}"
+                                           class="btn btn-outline-primary">Voir la page</a>
+                                        <button class="btn btn-outline-danger supprimer" data-Id="{{ court.id }}">Supprimer</button>
+                                    </div>
+                                </span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
         </span>
     </div>
@@ -44,7 +50,7 @@
     <script>
         $(document).ready(function(){
             let id;
-            $('.supprimer').on('click', function() {
+            $(document).on('click', '.supprimer', function() {
                 id = $(this).attr('data-Id');
                 $('.modal-body').find('p').text("Souhaitez-vous vraiment supprimer ce terrain ?");
                 $('#modal').modal('show');
@@ -57,7 +63,7 @@
                         data: {id:id}
                     });
                     $('#modal').modal('hide');
-                    $(".list-group").parent().load(document.URL + " .list-group");
+                    $("#courts-list").parent().load(document.URL + " #courts-list");
                 });
             });
         })

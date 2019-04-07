@@ -102,7 +102,7 @@ class TeamController extends AbstractController
             if ($team !== null) {
                 $team->setAccount($teamName, $captainLastName, $captainFirstName, $email, $phoneNumber, $active);
             } else {
-                $team = new Team(1, $club, $email, $password, $phoneNumber, $teamName, $captainLastName, $captainFirstName, 1);
+                $team = new Team(1, $club, $email, $password, $phoneNumber, $teamName, $captainLastName, $captainFirstName, $active);
             }
 
             $entityManager->persist($team);

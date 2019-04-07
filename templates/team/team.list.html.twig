@@ -11,21 +11,27 @@
             <a href="{{ url('team', {'clubId':club.id}) }}"><button class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter une équipe</button></a>
         </nav>
         <span>
-            <div class="list-group">
-                {% for team in teams %}
-                    {% if team.active == 0 %}
-                        <span class="list-group-item text-danger">
-                    {% else %}
-                        <span class="list-group-item">
-                    {% endif %}
-                        {{ team.name }} - {{ team.managerLastName }} {{ team.managerFirstName }}
-                            <div class="text-right">
-                                <a href="{{ url('team', {'clubId':club.id, 'teamId':team.id}) }}"
-                                   class="btn btn-outline-primary">Voir la page</a>
-                                <button class="btn btn-outline-danger supprimer" data-Id="{{ team.id }}">Supprimer</button>
-                            </div>
-                        </span>
-                {% endfor %}
+            <div id="teams-list">
+                {% if teams is empty %}
+                    <div class="text-center mt-3">Aucune équipe enregistrée.</div>
+                {% else %}
+                    <div class="list-group">
+                        {% for team in teams %}
+                            {% if team.active == 0 %}
+                                <span class="list-group-item text-danger">
+                            {% else %}
+                                <span class="list-group-item">
+                            {% endif %}
+                                    {{ team.name }} - {{ team.managerLastName }} {{ team.managerFirstName }}
+                                    <div class="text-right">
+                                        <a href="{{ url('team', {'clubId':club.id, 'teamId':team.id}) }}"
+                                           class="btn btn-outline-primary">Voir la page</a>
+                                        <button class="btn btn-outline-danger supprimer" data-Id="{{ team.id }}">Supprimer</button>
+                                    </div>
+                                </span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
         </span>
     </div>
@@ -48,7 +54,7 @@
     <script>
         $(document).ready(function(){
             let id;
-            $('.supprimer').on('click', function() {
+            $(document).on('click', '.supprimer', function() {
                 id = $(this).attr('data-Id');
                 $('.modal-body').find('p').text("Souhaitez-vous vraiment supprimer cette équipe?");
                 $('#modal').modal('show');
@@ -61,7 +67,7 @@
                         data: {id:id}
                     });
                     $('#modal').modal('hide');
-                    $(".list-group").parent().load(document.URL + " .list-group");
+                    $("#teams-list").parent().load(document.URL + " #teams-list");
                 });
             });
         })

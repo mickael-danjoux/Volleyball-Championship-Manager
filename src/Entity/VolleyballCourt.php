@@ -69,7 +69,7 @@ class VolleyballCourt
         return $this->place;
     }
 
-    public function getAddress()
+    public function getAddress(): String
     {
         return $this->address;
     }
