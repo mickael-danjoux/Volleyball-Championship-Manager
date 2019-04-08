@@ -16,4 +16,5 @@ return [
     Symfony\Bundle\WebServerBundle\WebServerBundle::class => ['dev' => true],
     Beelab\Recaptcha2Bundle\BeelabRecaptcha2Bundle::class => ['all' => true],
     Csa\Bundle\GuzzleBundle\CsaGuzzleBundle::class => ['all' => true],
+    Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
 ];
