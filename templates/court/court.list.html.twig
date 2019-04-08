@@ -10,18 +10,26 @@
         <nav class="navbar navbar-dark bg-light">
             <a href="{{ url('court', {'clubId':club.id}) }}"><button class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter un terrain</button></a>
         </nav>
-        <div class="list-group">
-            {% for court in courts %}
-                    <span class="list-group-item">
-                        {{ court.place }}
-                        <div class="text-right">
-                            <a href="{{ url('court', {'clubId':club.id, 'courtId':court.id}) }}"
-                               class="btn btn-outline-primary">Voir la page</a>
-                            <button class="btn btn-outline-danger supprimer" data-Id="{{ court.id }}">Supprimer</button>
-                        </div>
-                    </span>
-            {% endfor %}
-        </div>
+        <span>
+            <div id="courts-list">
+                {% if courts is empty %}
+                    <div class="text-center mt-3">Aucun terrain enregistré.</div>
+                {% else %}
+                    <div class="list-group">
+                        {% for court in courts %}
+                                <span class="list-group-item">
+                                    {{ court.place }} - {{ court.address }}
+                                    <div class="text-right">
+                                        <a href="{{ url('court', {'clubId':club.id, 'courtId':court.id}) }}"
+                                           class="btn btn-outline-primary">Voir la page</a>
+                                        <button class="btn btn-outline-danger supprimer" data-Id="{{ court.id }}">Supprimer</button>
+                                    </div>
+                                </span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </span>
     </div>
 
     <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -42,18 +50,20 @@
     <script>
         $(document).ready(function(){
             let id;
-            $('.supprimer').on('click', function() {
+            $(document).on('click', '.supprimer', function() {
                 id = $(this).attr('data-Id');
-                $('.modal-body').find('p').text("Souhaitez-vous vraiment supprimer cette équipe?");
+                $('.modal-body').find('p').text("Souhaitez-vous vraiment supprimer ce terrain ?");
                 $('#modal').modal('show');
             });
             $('#modal').on('show.bs.modal', e => {
                 $(this).find('.btn-success').on('click', function(){
                     $.ajax({
-                        url: '/court/form',
+                        url: '/club/court',
                         type: 'DELETE',
                         data: {id:id}
                     });
+                    $('#modal').modal('hide');
+                    $("#courts-list").parent().load(document.URL + " #courts-list");
                 });
             });
         })

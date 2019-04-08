@@ -14,22 +14,29 @@
         <nav class="navbar navbar-dark bg-light">
             <a href="{{ url('club') }}"><button class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter un club</button></a>
         </nav>
-        <div class="list-group">
-            {% for club in clubs %}
-                {% if club.active == 0 %}
-                    <span class="list-group-item text-danger">
+        <span>
+            <div id="clubs-list">
+                {% if clubs is empty %}
+                    <div class="text-center mt-3">Aucun club enregistré.</div>
                 {% else %}
-                    <span class="list-group-item">
+                    <div class="list-group">
+                        {% for club in clubs %}
+                            <span class="list-group-item">
+                                {% if club.active == 0 %}
+                                    <span class="badge badge-danger text-wrap">Inactif</span>
+                                {% endif %}
+                                {{ club.name }} - {{ club.managerLastName }} {{ club.managerFirstName }}
+                                <div class="text-right">
+                                    <a href="{{ url('club', {'clubId':club.id}) }}"
+                                       class="btn btn-outline-primary">Voir la page</a>
+                                    <button class="btn btn-outline-danger supprimer" data-Id="{{ club.id }}">Supprimer</button>
+                                </div>
+                            </span>
+                        {% endfor %}
+                    </div>
                 {% endif %}
-                    {{ club.name }} - {{ club.managerLastName }} {{ club.managerFirstName }}
-                        <div class="text-right">
-                            <a href="{{ url('club', {'clubId':club.id}) }}"
-                               class="btn btn-outline-primary">Voir la page</a>
-                            <button class="btn btn-outline-danger supprimer" data-Id="{{ club.id }}">Supprimer</button>
-                        </div>
-                    </span>
-            {% endfor %}
-        </div>
+            </div>
+        </span>
     </div>
 
     <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -50,7 +57,7 @@
     <script>
         $(document).ready(function(){
             let id;
-            $('.supprimer').on('click', function() {
+            $(document).on('click', '.supprimer', function() {
                 id = $(this).attr('data-Id');
                 $('.modal-body').find('p').text("Souhaitez-vous vraiment supprimer ce club?");
                 $('#modal').modal('show');
@@ -58,10 +65,12 @@
             $('#modal').on('show.bs.modal', e => {
                 $(this).find('.btn-success').on('click', function(){
                     $.ajax({
-                        url: '/club/form',
+                        url: '/club',
                         type: 'DELETE',
                         data: {id:id}
                     });
+                    $('#modal').modal('hide');
+                    $("#clubs-list").parent().load(document.URL + " #clubs-list");
                 });
             });
         })

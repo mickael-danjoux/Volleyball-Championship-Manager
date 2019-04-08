@@ -35,6 +35,12 @@ class Team extends Account
         parent::__construct($email, $password, $phoneNumber, $name, $managerFirstName, $managerLastName, $active);
     }
 
+    public function setTeam($name, $managerLastName, $managerFirstName, $email, $phoneNumber, $active, $validate): void
+    {
+        $this->validate = $validate;
+        $this->setAccount($name, $managerLastName, $managerFirstName, $email, $phoneNumber, $active);
+    }
+
     public function getValidate(): bool
     {
         return $this->validate;

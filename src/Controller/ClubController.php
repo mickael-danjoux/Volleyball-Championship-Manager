@@ -33,6 +33,18 @@ class ClubController extends AbstractController
                 ->findBy(array('name' => $clubName));
 
             return $this->render('club/club.list.html.twig', ['clubs' => $clubs], new Response(200));
+
+        } else if ($req->isMethod('DELETE')) {
+
+            $entityManager = $this->getDoctrine()->getManager();
+
+            $id = $req->get("id");
+            $club = $this->getDoctrine()->getRepository(Club::class)->find($id);
+
+            $entityManager->remove($club);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('clubs');
         }
 
         return $this->redirect($req->getUri());
@@ -85,17 +97,6 @@ class ClubController extends AbstractController
 
             return $this->redirectToRoute('clubs');
 
-        } else if ($req->isMethod('DELETE')) {
-
-            $entityManager = $this->getDoctrine()->getManager();
-
-            $id = $req->get("id");
-            $club = $this->getDoctrine()->getRepository(Club::class)->find($id);
-
-            $entityManager->remove($club);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('clubs');
         }
         return null;
     }

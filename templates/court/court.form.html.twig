@@ -1,50 +1,64 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     <div class="col-md-5 mx-auto">
-        <h4 class="text-center mb-4">{% if court.club.id is defined %}{{ court.club.name }} - {{ court.name }}{% else %}Ajouter un terrain{% endif %}</h4>
+        <h4 class="text-center mb-4">{% if court.club.id is defined %}{{ court.club.name }} - {{ court.place }} : {{ court.address }}{% else %}Ajouter un terrain{% endif %}</h4>
         <form method="POST">
             <input type="hidden" name="clubId" value="{% if court.club.id is defined %}{{ court.club.id }}{% endif %}">
             <input type="hidden" name="courtId" value="{% if court.id is defined %}{{ court.id }}{% endif %}">
             <div class="form-group">
-                <label for="inputCourtPlace">Lieu</label>
-                <input class="form-control" id="inputCourtPlace" type="text" name="courtPlace" value="{% if court.id is defined %}{{ court.place }}{% endif %}" required/>
+                <label for="inputPlace">Ville</label>
+                <input class="form-control" id="inputPlace" type="text" name="place" value="{% if court.id is defined %}{{ court.place }}{% endif %}" required/>
             </div>
             <div class="form-group">
-                <label for="inputTimeSlot">Créneau(x) :</label><br/>
-                De
-                <input class="form-control col-md-2 d-inline" id="inputTimeSlotStartTime" type="time" name="timeSlotStartTime" />
-                À
-                <input class="form-control col-md-2 d-inline" id="inputTimeSlotEndTime" type="time" name="timeSlotEndTime" />
-                <button type="button" class="btn btn-primary addTimeSlot">Ajouter</button>
-                <ul id="timeSlots">
-                {% if court.timeSlots is defined %}
-                    {% for timeslot in court.timeSlots %}
-                        <li>
-                            De
-                            <input class="form-control col-md-3 d-inline timeSlotStartTime" type="text" name="timeSlotStartTime" value="{{ timeslot.startTime }}" disabled/>
-                            À
-                            <input class="form-control col-md-3 d-inline timeSlotEndTime" type="text" name="timeSlotEndTime" value="{{ timeslot.startEnd }}" disabled/>
-                            <button type="button" class="btn btn-outline-primary deleteTimeSlot">Supprimer</button>
-                        </li>
-                    {% endfor %}
-                {% endif %}
-                </ul>
+                <label for="inputAddress">Adresse</label>
+                <input class="form-control" id="inputAddress" type="text" name="address" value="{% if court.id is defined %}{{ court.address }}{% endif %}" required/>
+            </div>
+            <div class="form-group">
+                <label>Créneau(x) :</label><br/>
+                <div>
+                    <input id="monday" type="checkbox" name="monday" {% if court.id is defined %}{% for day in court.days %}{% if day.id == 1 %}checked{% endif %}{% endfor %}{% endif %}/>
+                    Lundi
+                </div>
+                <div>
+                    <input id="tuesday" type="checkbox" name="tuesday" {% if court.id is defined %}{% for day in court.days %}{% if day.id == 2 %}checked{% endif %}{% endfor %}{% endif %}/>
+                    Mardi
+                </div>
+                <div>
+                    <input id="wednesday" type="checkbox" name="wednesday" {% if court.id is defined %}{% for day in court.days %}{% if day.id == 3 %}checked{% endif %}{% endfor %}{% endif %}/>
+                    Mercredi
+                </div>
+                <div>
+                    <input id="thursday" type="checkbox" name="thursday" {% if court.id is defined %}{% for day in court.days %}{% if day.id == 4 %}checked{% endif %}{% endfor %}{% endif %}/>
+                    Jeudi
+                </div>
+                <div>
+                    <input id="friday" type="checkbox" name="friday" {% if court.id is defined %}{% for day in court.days %}{% if day.id == 5 %}checked{% endif %}{% endfor %}{% endif %}/>
+                    Vendredi
+                </div>
+                <div>
+                    <input id="saturday" type="checkbox" name="saturday" {% if court.id is defined %}{% for day in court.days %}{% if day.id == 6 %}checked{% endif %}{% endfor %}{% endif %}/>
+                    Samedi
+                </div>
+                <div>
+                    <input id="sunday" type="checkbox" name="sunday" {% if court.id is defined %}{% for day in court.days %}{% if day.id == 7 %}checked{% endif %}{% endfor %}{% endif %}/>
+                    Dimanche
+                </div>
             </div>
             <div class="w-100 text-right">
-                <input class="btn btn-primary saveCourt" type="button" value="Enregistrer"/>
+                <input class="btn btn-primary saveCourt" type="submit" value="Enregistrer"/>
             </div>
         </form>
     </div>
 {% endblock %}
 {% block javascripts %}
     <script>
-    $(document).ready(function(){
-        var startTimes = $('.timeSlotStartTime');
-        var endTimes = $('.timeSlotEndTime');
-        var startTime = parseInt($('#inputTimeSlotStartTime').val().replace(':', ''));
-        var endTime = parseInt($('#inputTimeSlotEndTime').val().replace(':', ''));
+    /*$(document).ready(function(){
         $(document).on('click', '.addTimeSlot', function(){
             var alreadyExist = false;
+            var startTimes = $('.timeSlotStartTime');
+            var endTimes = $('.timeSlotEndTime');
+            var startTime = parseInt($('#inputTimeSlotStartTime').val().replace(':', ''));
+            var endTime = parseInt($('#inputTimeSlotEndTime').val().replace(':', ''));
 
             if (startTime >= endTime || isNaN(startTime) || isNaN(endTime)) {
                 alreadyExist = true;
@@ -78,18 +92,18 @@
         });
 
         $(document).on('click', '.saveCourt', function(){
-            startTimes.get().forEach(function(s, i, a) {
-                console.log(a);
-            });
-            /*$.post(
+            var startTimes = $('.timeSlotStartTime');
+            var endTimes = $('.timeSlotEndTime');
+            console.log(startTimes.get());
+            $.post(
                 "court/form",
                 {
                     courtPlace:$('#inputCourtPlace').val(),
 
                 }
 
-            )*/
+            )
         });
-    });
+    });*/
     </script>
 {% endblock %}

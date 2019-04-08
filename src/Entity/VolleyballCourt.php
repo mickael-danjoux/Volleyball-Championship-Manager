@@ -28,20 +28,34 @@ class VolleyballCourt
     private $place;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $address;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Club", inversedBy="volleyballCourts")
      */
     private $club;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TimeSlot", mappedBy="volleyballCourt")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Day", inversedBy="volleyballCourts", cascade={"persist"})
      */
-    private $timeSlots;
+    private $days;
 
 
-    public function __construct($place, $club)
+    public function __construct(String $place, String $address, Club $club, array $days)
     {
         $this->place = $place;
+        $this->address = $address;
         $this->club = $club;
+        $this->days = $days;
+    }
+
+    public function setVolleyballCourt(String $place, String $address, array $days)
+    {
+        $this->place = $place;
+        $this->address = $address;
+        $this->days = $days;
     }
 
 
@@ -55,15 +69,22 @@ class VolleyballCourt
         return $this->place;
     }
 
+    public function getAddress(): String
+    {
+        return $this->address;
+    }
+
     public function getClub(): Club
     {
         return $this->club;
     }
 
-    public function getTimeSlots(): TimeSlot
+    public function getDays()
     {
-        return $this->timeSlots;
+        return $this->days;
     }
+
+
 
 
 
