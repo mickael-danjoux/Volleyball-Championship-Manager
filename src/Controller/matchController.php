@@ -10,6 +10,7 @@ namespace App\Controller;
 
 use App\Entity\Club;
 use App\Entity\Team;
+use App\Entity\Game;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,6 +23,7 @@ class matchController extends AbstractController
      * @Route("/match/generate", name="match-generate")
      */
     public function generateMatch(Request $req) {
+        $entityManager = $this->getDoctrine()->getManager();
 
         if ($req->isMethod('GET')) {
 
@@ -37,28 +39,37 @@ class matchController extends AbstractController
                 ->getRepository(Team::class)
                 ->findAll();
             $countMatch = count($teams);
-            $matchListHome = [];
-            $matchListAway = [];
+            $matchListHomePair = [];
+            $matchListAwayPair = [];
+            $matchListHomeString = [];
+            $matchListAwayString = [];
 
             foreach ($teams as $team){
 
                for($i=0; $i<$countMatch; $i++){
-                   $matchNameHome = $team->getName() . " - " .$teams[$i]->getName();
-                   $matchNameAway = $teams[$i]->getName() . " - " . $team->getName();
+                   $matchPairAway = $teams[$i]->getId() . " - " . $team->getId();
+
                    if($team != $teams[$i]){
-                       if(! in_array($matchNameAway,$matchListHome)){
-                           $matchListHome[] = $matchNameHome;
+                       if(! in_array($matchPairAway,$matchListHomePair)){
+                           $match = new Game($team,$teams[$i],1);
+                           $matchListHomePair[] = $team->getId() . " - " . $teams[$i]->getId();
+                           $matchListHomeString[] = $match -> getHomeTeam()->getName() . " - " . $match-> getOutsideTeam()->getName();
                        }else{
-                           $matchListAway[] = $matchNameHome;
+                           $match = new Game($team,$teams[$i],0);
+                           $matchListAwayPair[] = $team->getId() . " - " . $teams[$i]->getId();
+                           $matchListAwayString[] = $match -> getHomeTeam()->getName() . " - " . $match-> getOutsideTeam()->getName();
                        }
+                       $entityManager->persist($match);
+
                    }
 
                }
+                $entityManager->flush();
 
             }
             return $this ->render('match/match.list.html.twig',[
-                "matchListHome" => $matchListHome,
-                "matchListAway" => $matchListAway
+                "matchListHome" => $matchListHomeString,
+                "matchListAway" => $matchListAwayString
                 ],new Response(200));
 
         }
