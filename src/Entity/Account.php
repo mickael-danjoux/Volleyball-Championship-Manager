@@ -76,6 +76,10 @@ class Account
         $this->active = $active;
     }
 
+    public function setActive($active): void {
+        $this->active = $active;
+    }
+
 
     public function getId(): int
     {
