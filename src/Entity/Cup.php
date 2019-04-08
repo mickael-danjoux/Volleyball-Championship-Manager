@@ -38,7 +38,7 @@ class Cup
     private $participatingTeams;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Match", mappedBy="cup")
+     * @ORM\OneToMany(targetEntity="App\Entity\Game", mappedBy="cup")
      */
     private $cupMatch;
 
