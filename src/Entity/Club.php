@@ -32,7 +32,7 @@ class Club extends Account
     }
 
 
-    public function getTeams(): array
+    public function getTeams()
     {
         return $this->teams;
     }

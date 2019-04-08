@@ -88,6 +88,11 @@ class ClubController extends AbstractController
             $club = $this->getDoctrine()->getRepository(Club::class)->find($id);
             if ($club !== null) {
                 $club->setAccount($name, $managerLastName, $managerFirstName, $email, $phoneNumber, $active);
+                if ($active == 0) {
+                    foreach ($club->getTeams() as $team) {
+                        $team->setActive($active);
+                    }
+                }
             } else {
                 $club = new Club($email, $password, $phoneNumber, $name, $managerFirstName, $managerLastName, $active);
             }
