@@ -1,3 +1,6 @@
+body{
+    background-image: url("../resources/textured_paper.png");
+}
 .championship-subtitle {
     font-size: 1.3rem;
 }
