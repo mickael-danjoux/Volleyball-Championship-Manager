@@ -39,10 +39,35 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="inputActive">Club actif</label>
+                <label for="inputActive">Équipe active</label>
+                {% if (team.validate is defined) %}
+                    {% if team.validate == false %}
+                <select class="custom-select" id="inputActive" name="active" required disabled>
+                    <option value="1">Oui</option>
+                    <option value="0" selected>Non</option>
+                    {% else %}
                 <select class="custom-select" id="inputActive" name="active" required>
-                    {% if (team.active is defined) %}
-                        {% if team.active %}
+                        {% if (team.active is defined) %}
+                            {% if team.active %}
+                                <option value="1" selected>Oui</option>
+                                <option value="0">Non</option>
+                            {% else %}
+                                <option value="1">Oui</option>
+                                <option value="0" selected>Non</option>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% else %}
+                    <option value="1" selected>Oui</option>
+                    <option value="0">Non</option>
+                {% endif %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="inputValidate">Équipe validée</label>
+                <select class="custom-select" id="inputValidate" name="validate" required>
+                    {% if (team.validate is defined) %}
+                        {% if team.validate %}
                             <option value="1" selected>Oui</option>
                             <option value="0">Non</option>
                         {% else %}
@@ -60,4 +85,16 @@
             </div>
         </form>
     </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        $(document).on('click', '#inputValidate', function() {
+            if ($('#inputValidate option:eq(1)').prop('selected')) {
+                $('#inputActive option:eq(1)').prop('selected', true);
+                $('#inputActive').prop('disabled', true);
+            } else if ($('#inputValidate option:eq(0)').prop('selected')) {
+                $('#inputActive').prop('disabled', false);
+            }
+        });
+    </script>
 {% endblock %}

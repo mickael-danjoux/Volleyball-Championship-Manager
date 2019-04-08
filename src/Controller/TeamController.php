@@ -97,12 +97,17 @@ class TeamController extends AbstractController
             $phoneNumber = $req->get("captainPhoneNumber");
             $volleyballCourtId = $req->get("volleyballCourt");
             $active = $req->get("active");
+            $validate = $req->get("validate");
+
+            if ($validate == 0) {
+                $active = 0;
+            }
 
             $team = $this->getDoctrine()->getRepository(Team::class)->find($teamId);
             if ($team !== null) {
-                $team->setAccount($teamName, $captainLastName, $captainFirstName, $email, $phoneNumber, $active);
+                $team->setTeam($teamName, $captainLastName, $captainFirstName, $email, $phoneNumber, $active, $validate);
             } else {
-                $team = new Team(1, $club, $email, $password, $phoneNumber, $teamName, $captainLastName, $captainFirstName, $active);
+                $team = new Team($validate, $club, $email, $password, $phoneNumber, $teamName, $captainLastName, $captainFirstName, $active);
             }
 
             $entityManager->persist($team);

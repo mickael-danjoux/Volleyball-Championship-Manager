@@ -21,18 +21,17 @@
                 {% else %}
                     <div class="list-group">
                         {% for club in clubs %}
-                        {% if club.active == 0 %}
-                                <span class="list-group-item text-danger">
-                            {% else %}
-                                <span class="list-group-item">
-                            {% endif %}
-                                    {{ club.name }} - {{ club.managerLastName }} {{ club.managerFirstName }}
-                                    <div class="text-right">
-                                        <a href="{{ url('club', {'clubId':club.id}) }}"
-                                           class="btn btn-outline-primary">Voir la page</a>
-                                        <button class="btn btn-outline-danger supprimer" data-Id="{{ club.id }}">Supprimer</button>
-                                    </div>
-                                </span>
+                            <span class="list-group-item">
+                                {% if club.active == 0 %}
+                                    <span class="badge badge-danger text-wrap">Inactif</span>
+                                {% endif %}
+                                {{ club.name }} - {{ club.managerLastName }} {{ club.managerFirstName }}
+                                <div class="text-right">
+                                    <a href="{{ url('club', {'clubId':club.id}) }}"
+                                       class="btn btn-outline-primary">Voir la page</a>
+                                    <button class="btn btn-outline-danger supprimer" data-Id="{{ club.id }}">Supprimer</button>
+                                </div>
+                            </span>
                         {% endfor %}
                     </div>
                 {% endif %}

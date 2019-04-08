@@ -17,18 +17,19 @@
                 {% else %}
                     <div class="list-group">
                         {% for team in teams %}
-                            {% if team.active == 0 %}
-                                <span class="list-group-item text-danger">
-                            {% else %}
-                                <span class="list-group-item">
-                            {% endif %}
-                                    {{ team.name }} - {{ team.managerLastName }} {{ team.managerFirstName }}
-                                    <div class="text-right">
-                                        <a href="{{ url('team', {'clubId':club.id, 'teamId':team.id}) }}"
-                                           class="btn btn-outline-primary">Voir la page</a>
-                                        <button class="btn btn-outline-danger supprimer" data-Id="{{ team.id }}">Supprimer</button>
-                                    </div>
-                                </span>
+                            <span class="list-group-item">
+                                {% if team.validate == 0 %}
+                                    <span class="badge badge-warning text-wrap">Non validée</span>
+                                {% elseif team.active == 0 %}
+                                    <span class="badge badge-danger text-wrap">Inactive</span>
+                                {% endif %}
+                                {{ team.name }} - {{ team.managerLastName }} {{ team.managerFirstName }}
+                                <div class="text-right">
+                                    <a href="{{ url('team', {'clubId':club.id, 'teamId':team.id}) }}"
+                                       class="btn btn-outline-primary">Voir la page</a>
+                                    <button class="btn btn-outline-danger supprimer" data-Id="{{ team.id }}">Supprimer</button>
+                                </div>
+                            </span>
                         {% endfor %}
                     </div>
                 {% endif %}
