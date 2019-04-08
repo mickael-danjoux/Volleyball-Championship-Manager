@@ -1,8 +1,8 @@
 <div class="d-flex flex-column">
     <a class="btn btn-light m-2" href="{{ url('championship_pool', {championshipId: championship.id}) }}">Gestion des poules</a>
     <a class="btn btn-light m-2" href="{{ url('championship_pool_composition', {championshipId: championship.id}) }}">Composition des poules</a>
-    <a class="btn btn-light m-2" href="">Générer Calendrier</a>
-    <a class="btn btn-light m-2" href="">Règles des points</a>
+    <a class="btn btn-light m-2" href="{{ url('championship_generate_calendar', {championshipId: championship.id}) }}">Générer Calendrier</a>
+    <a class="btn btn-light m-2" href="{{ url('championship_specification_point', {championshipId: championship.id}) }}">Règles des points</a>
 </div>
 
 <form class="d-flex justify-content-end mt-5" method="post">

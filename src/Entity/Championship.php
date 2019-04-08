@@ -53,6 +53,11 @@ class Championship
         $this->name = $name;
     }
 
+    public function updateSpecificationPoint( SpecificationPoint $specificationPoint ): void
+    {
+        $this->specificationPoint = $specificationPoint;
+    }
+
     public function start(): void
     {
         $this->began = true;

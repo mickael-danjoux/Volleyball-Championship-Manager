@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="col-12 col-md-6 col-lg-5 mx-auto d-flex flex-column">
+        <h1 class="mb-4 align-self-start">{{ championship.name }}</h1>
+
+        <form class="col-12 col-sm-8 mx-auto" method="get">
+
+            <div class="form-group">
+                <label for="pool">Poule</label>
+                <select class="form-control" name="pool" id="pool">
+                    <option value="0">Choisir une poule</option>
+
+                    {% for pool in championship.pools %}
+
+                        <option value="{{ pool.id }}" {% if selectedPoolId == pool.id %}selected="selected"{% endif %}>{{ pool.name }}</option>
+
+                    {% endfor %}
+
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Sélectionner</button>
+
+        </form>
+
+        <table class="table">
+
+
+
+        </table>
+
+        <form method="post">
+            <input type="hidden" name="selectedPoolId" value="{{ selectedPoolId }}">
+
+            <button type="submit" class="btn btn-primary">Générer le calendrier</button>
+        </form>
+
+    </div>
+
+{% endblock %}

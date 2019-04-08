@@ -180,4 +180,71 @@ class ChampionshipController extends AbstractController
             "pool" => $pool
         ]);
     }
+
+    /**
+     * @Route("/championship/{championshipId}/specification-point", name="championship_specification_point")
+     */
+    public function pageChampionshipSpecificationPoint(int $championshipId, Request $request, ChampionshipRepository $championshipRepository): Response
+    {
+        try{
+            $championship = $championshipRepository->get( $championshipId );
+        }
+        catch( ChampionshipNotFound $exception ){
+            return $this->redirectToRoute("championships_list");
+        }
+
+        $winPoint = $championship->getSpecificationPoint()->getWinPoint();
+        $looseWBPoint = $championship->getSpecificationPoint()->getLooseWithBonusPoint();
+        $loosePoint = $championship->getSpecificationPoint()->getLoosePoint();
+        $forfeitPoint = $championship->getSpecificationPoint()->getForfeitPoint();
+
+        if( $request->getMethod() === "POST" ){
+
+            $winPoint = (int) $request->get('winPoint');
+            $looseWBPoint = (int) $request->get('looseWBPoint');
+            $loosePoint = (int) $request->get('loosePoint');
+            $forfeitPoint = (int) $request->get('forfeitPoint');
+
+            $specificationPoint = new SpecificationPoint($winPoint, $loosePoint, $forfeitPoint, $looseWBPoint);
+
+            $championship->updateSpecificationPoint( $specificationPoint );
+            $championshipRepository->save( $championship );
+        }
+
+
+        return $this->render('championship/championship-edit-specification-point.html.twig', [
+            "championship" => $championship,
+            "winPoint" => $winPoint,
+            "looseWBPoint" => $looseWBPoint,
+            "loosePoint" => $loosePoint,
+            "forfeitPoint" => $forfeitPoint
+        ]);
+    }
+
+    /**
+     * @Route("/championship/{championshipId}/generate-calendar", name="championship_generate_calendar")
+     */
+    public function pageChampionshipGenerateCalendar(int $championshipId, Request $request, ChampionshipRepository $championshipRepository, PoolRepository $poolRepository): Response
+    {
+        try{
+            $championship = $championshipRepository->get( $championshipId );
+        }
+        catch( ChampionshipNotFound $exception ){
+            return $this->redirectToRoute("championships_list");
+        }
+
+        $selectedPoolId = (int) $request->get('pool');
+
+        try{
+            $pool = $poolRepository->get( $selectedPoolId );
+        }
+        catch(PoolNotFound $exception){
+            $selectedPoolId = 0;
+        }
+
+        return $this->render('championship/championship-edit-calendar.html.twig', [
+            "championship" => $championship,
+            "selectedPoolId" => $selectedPoolId
+        ]);
+    }
 }

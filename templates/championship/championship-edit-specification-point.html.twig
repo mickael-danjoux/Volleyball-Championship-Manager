@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="col-12 col-md-6 col-lg-5 mx-auto d-flex flex-column">
+        <h1 class="mb-4 align-self-start">{{ championship.name }}</h1>
+
+        <form method="post">
+
+            <table class="table">
+                <tr>
+                    <th></th>
+                    <th class="text-center">Point gagné</th>
+                </tr>
+                <tr>
+                    <td class="text-center"><label for="winPoint">Match gagné</label></td>
+                    <td><input class="form-control text-center" type="number" id="winPoint" name="winPoint" value="{{ winPoint }}"></td>
+                </tr>
+                <tr>
+                    <td class="text-center"><label for="looseWBPoint">Match perdu 2 - 3</label></td>
+                    <td><input class="form-control text-center" type="number" id="looseWBPoint" name="looseWBPoint" value="{{ looseWBPoint }}"></td>
+                </tr>
+                <tr>
+                    <td class="text-center"><label for="loosePoint">Match perdu</label></td>
+                    <td><input class="form-control text-center" type="number" id="loosePoint" name="loosePoint" value="{{ loosePoint }}"></td>
+                </tr>
+                <tr>
+                    <td class="text-center"><label for="forfeitPoint">Match perdu par forfait</label></td>
+                    <td><input class="form-control text-center" type="number" id="forfeitPoint" name="forfeitPoint" value="{{ forfeitPoint }}"></td>
+                </tr>
+            </table>
+
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Modifier</button>
+            </div>
+        </form>
+
+    </div>
+
+{% endblock %}

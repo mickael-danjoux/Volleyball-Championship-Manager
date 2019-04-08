@@ -51,7 +51,6 @@ class PoolController extends AbstractController
 
         $poolRepository->save( $pool );
 
-        //return new Response("coucou");
         return $this->redirectToRoute("championship_pool_composition", [
             "championshipId" => $pool->getChampionship()->getId()
         ]);

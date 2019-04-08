@@ -63,34 +63,48 @@
             <button type="submit" class="btn btn-primary">Selectionner</button>
         </form>
 
-        <table class="table">
-            <tr>
-                <th>Nom de l'équipe</th>
-                <th></th>
-            </tr>
+        {% if pool %}
 
-            {% if pool.championshipTeams | length > 0 %}
-
-                {% for championshipTeam in pool.championshipTeams %}
-
-                    <tr>
-                        <td>{{ championshipTeam.team.name }}</td>
-                        <td>
-                            <a href="{{ url('pool_remove_team', {"poolId": pool.id, "teamId": championshipTeam.id }) }}">Supprimer</a>
-                        </td>
-                    </tr>
-
-                {% endfor %}
-
-            {% else %}
-
+            <table class="table">
                 <tr>
-                    <td>Il n'y a aucune équipe dans cette poule.</td>
+                    <th>Nom de l'équipe</th>
+                    <th></th>
                 </tr>
 
-            {% endif %}
 
-        </table>
+
+                {% if pool.championshipTeams | length > 0 %}
+
+                    {% for championshipTeam in pool.championshipTeams %}
+
+                        <tr>
+                            <td>{{ championshipTeam.team.name }}</td>
+                            <td>
+                                <a href="{{ url('pool_remove_team', {"poolId": pool.id, "teamId": championshipTeam.id }) }}">Supprimer</a>
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <tr>
+                        <td>Il n'y a aucune équipe dans cette poule.</td>
+                    </tr>
+
+                {% endif %}
+
+
+
+            </table>
+
+        {% else %}
+
+            <div class="alert alert-warning" role="alert">
+                Il n'y a aucune poule.
+            </div>
+
+        {% endif %}
 
     </div>
 
