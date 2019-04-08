@@ -5,8 +5,11 @@ namespace App\Controller;
 
 
 use App\Entity\Championship;
+use App\Entity\ChampionshipTeam;
+use App\Entity\Club;
 use App\Entity\Pool;
 use App\Entity\SpecificationPoint;
+use App\Entity\Team;
 use App\Exception\ChampionshipNotFound;
 use App\Exception\PoolNotFound;
 use App\Form\ChampionshipEditType;
@@ -122,15 +125,16 @@ class ChampionshipController extends AbstractController
      */
     public function pageChampionshipGroupsComposition(int $championshipId, Request $request, ChampionshipRepository $championshipRepository, PoolRepository $poolRepository): Response
     {
-        $selectedClubId = (int) $request->get("club", 0);
-        $selectedPoolId = (int) $request->get("group", 0);
-
         try{
             $championship = $championshipRepository->get( $championshipId );
         }
         catch(ChampionshipNotFound $exception){
             return $this->redirectToRoute("championships_list");
         }
+
+        $selectedClubId = (int) $request->get("club", 0);
+        $selectedPoolId = (int) $request->get("pool", 0);
+
 
         if( $selectedPoolId > 0 ){
 
@@ -140,20 +144,39 @@ class ChampionshipController extends AbstractController
             catch(PoolNotFound $exception){
                 throw $exception;
             }
+
         }
         else{
             $pool = $championship->getPools()[0];
         }
 
-        $clubs = [];
         $teams = [];
+        if( $selectedClubId > 0 ){
+            $club = $this->getDoctrine()->getRepository(Club::class)->find( $selectedClubId );
+
+            if( $club !== null ){
+                $teams = $this->getDoctrine()->getRepository(Team::class)->findBy(['club' => $club]);
+            }
+        }
+
+        $clubs = $this->getDoctrine()->getRepository(Club::class)->findAll();
+
+        if( $request->getMethod() === "POST" ){
+            $teamId = $request->get('team');
+
+            $team = $this->getDoctrine()->getRepository(Team::class)->find( $teamId );
+            $pool->addChampionshipTeam( $team );
+
+            $poolRepository->save( $pool );
+        }
+
 
         return $this->render('championship/championship-edit-pool-composition.html.twig', [
             "championship" => $championship,
             "selectedClub" => $selectedClubId,
+            "selectedPool" => $selectedPoolId,
             "clubs" => $clubs,
             "teams" => $teams,
-            "selectedPool" => $selectedPoolId,
             "pool" => $pool
         ]);
     }

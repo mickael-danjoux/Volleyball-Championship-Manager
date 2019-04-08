@@ -22,11 +22,12 @@
 
 
                     </select>
+                    <input type="hidden" name="pool" value="{{ selectedPool }}">
 
                     <button type="submit" class="btn btn-primary">Selectionner</button>
                 </form>
 
-                <form class="d-flex flex-column mb-4">
+                <form class="d-flex flex-column mb-4" method="post">
                     <select class="form-control mb-2" name="team">
                         <option value="0">Choisir une équipe</option>
 
@@ -37,6 +38,8 @@
                         {% endfor %}
 
                     </select>
+                    <input type="hidden" name="pool" value="{{ selectedPool }}">
+                    <input type="hidden" name="club" value="{{ selectedClub }}">
 
                     <button type="submit" class="btn btn-primary">Ajouter</button>
                 </form>
@@ -55,6 +58,7 @@
                 {% endfor %}
 
             </select>
+            <input type="hidden" name="club" value="{{ selectedClub }}">
 
             <button type="submit" class="btn btn-primary">Selectionner</button>
         </form>
@@ -67,12 +71,12 @@
 
             {% if pool.championshipTeams | length > 0 %}
 
-                {% for team in pool.championshipTeams %}
+                {% for championshipTeam in pool.championshipTeams %}
 
                     <tr>
-                        <td>{{ team.name }}</td>
+                        <td>{{ championshipTeam.team.name }}</td>
                         <td>
-                            <a href="">Supprimer</a>
+                            <a href="{{ url('pool_remove_team', {"poolId": pool.id, "teamId": championshipTeam.id }) }}">Supprimer</a>
                         </td>
                     </tr>
 

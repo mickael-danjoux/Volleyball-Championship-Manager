@@ -30,7 +30,7 @@ class Pool
     private $championship;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ChampionshipTeam", mappedBy="pool")
+     * @ORM\OneToMany(targetEntity="App\Entity\ChampionshipTeam", mappedBy="pool", cascade={"persist", "remove"})
      */
     private $championshipTeams;
 
@@ -65,24 +65,18 @@ class Pool
         return $this->championshipTeams;
     }
 
-    public function addChampionshipTeam(ChampionshipTeam $championshipTeam): self
+    public function addChampionshipTeam(Team $team): void
     {
+        $championshipTeam = new ChampionshipTeam(0, $team, $this);
         if (!$this->championshipTeams->contains($championshipTeam)) {
             $this->championshipTeams[] = $championshipTeam;
-            $championshipTeam->setPool($this);
         }
-
-        return $this;
     }
 
     public function removeChampionshipTeam(ChampionshipTeam $championshipTeam): self
     {
         if ($this->championshipTeams->contains($championshipTeam)) {
-            $this->championshipTeams->removeElement($championshipTeam);
-            // set the owning side to null (unless already changed)
-            if ($championshipTeam->getPool() === $this) {
-                $championshipTeam->setPool(null);
-            }
+            $this->championshipTeams->removeElement( $championshipTeam );
         }
 
         return $this;

@@ -3,6 +3,7 @@
 
 namespace App\Controller;
 
+use App\Entity\ChampionshipTeam;
 use App\Entity\Pool;
 use App\Exception\PoolNotFound;
 use App\Repository\PoolRepository;
@@ -28,6 +29,30 @@ class PoolController extends AbstractController
         $poolRepository->remove( $pool );
 
         return $this->redirectToRoute("championship_pool", [
+            "championshipId" => $pool->getChampionship()->getId()
+        ]);
+    }
+
+    /**
+     * @Route("/pool/{poolId}/team/{teamId}/remove", name="pool_remove_team")
+     */
+    public function removeChampionshipTeamInPool(int $poolId, int $teamId, Request $request, PoolRepository $poolRepository): Response
+    {
+        try{
+            $pool = $poolRepository->get( $poolId );
+        }
+        catch(PoolNotFound $exception){
+            return $this->redirectToRoute("championships_list", []);
+        }
+
+        $championshipTeam = $this->getDoctrine()->getRepository(ChampionshipTeam::class)->find( $teamId );
+
+        $pool->removeChampionshipTeam( $championshipTeam );
+
+        $poolRepository->save( $pool );
+
+        //return new Response("coucou");
+        return $this->redirectToRoute("championship_pool_composition", [
             "championshipId" => $pool->getChampionship()->getId()
         ]);
     }

@@ -38,10 +38,6 @@ class Championship
      */
     private $pools;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ChampionshipTeam", mappedBy="championship", orphanRemoval=true)
-     */
-    private $championshipTeams;
 
     public function __construct(string $name, bool $began, SpecificationPoint $specificationPoint)
     {
@@ -50,7 +46,6 @@ class Championship
         $this->specificationPoint = $specificationPoint;
 
         $this->pools = new ArrayCollection();
-        $this->championshipTeams = new ArrayCollection();
     }
 
     public function changeName(string $name): void
@@ -108,37 +103,6 @@ class Championship
             // set the owning side to null (unless already changed)
             if ($pool->getChampionship() === $this) {
                 $pool->setChampionship(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|ChampionshipTeam[]
-     */
-    public function getChampionshipTeams(): Collection
-    {
-        return $this->championshipTeams;
-    }
-
-    public function addChampionshipTeam(ChampionshipTeam $championshipTeam): self
-    {
-        if (!$this->championshipTeams->contains($championshipTeam)) {
-            $this->championshipTeams[] = $championshipTeam;
-            $championshipTeam->setChampionship($this);
-        }
-
-        return $this;
-    }
-
-    public function removeChampionshipTeam(ChampionshipTeam $championshipTeam): self
-    {
-        if ($this->championshipTeams->contains($championshipTeam)) {
-            $this->championshipTeams->removeElement($championshipTeam);
-            // set the owning side to null (unless already changed)
-            if ($championshipTeam->getChampionship() === $this) {
-                $championshipTeam->setChampionship(null);
             }
         }
 
