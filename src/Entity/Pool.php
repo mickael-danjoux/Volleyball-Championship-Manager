@@ -34,12 +34,18 @@ class Pool
      */
     private $championshipTeams;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Game", mappedBy="pool", cascade={"persist"})
+     */
+    private $games;
+
     public function __construct(string $name, Championship $championship)
     {
         $this->name = $name;
         $this->championship = $championship;
 
         $this->championshipTeams = new ArrayCollection();
+        $this->games = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -77,6 +83,37 @@ class Pool
     {
         if ($this->championshipTeams->contains($championshipTeam)) {
             $this->championshipTeams->removeElement( $championshipTeam );
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Game[]
+     */
+    public function getGames(): Collection
+    {
+        return $this->games;
+    }
+
+    public function addGame(Game $game): self
+    {
+        if (!$this->games->contains($game)) {
+            $this->games[] = $game;
+            $game->setPool($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGame(Game $game): self
+    {
+        if ($this->games->contains($game)) {
+            $this->games->removeElement($game);
+            // set the owning side to null (unless already changed)
+            if ($game->getPool() === $this) {
+                $game->setPool(null);
+            }
         }
 
         return $this;

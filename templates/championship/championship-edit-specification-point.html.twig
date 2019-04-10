@@ -5,6 +5,8 @@
     <div class="col-12 col-md-6 col-lg-5 mx-auto d-flex flex-column">
         <h1 class="mb-4 align-self-start">{{ championship.name }}</h1>
 
+        <a href="{{ url('championship_page', {"championshipId": championship.id}) }}">Retour ...</a>
+
         <form method="post">
 
             <table class="table">

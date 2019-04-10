@@ -5,6 +5,8 @@
     <div class="col-12 col-md-6 col-lg-5 mx-auto d-flex flex-column">
         <h1 class="mb-4 align-self-start">{{ championship.name }}</h1>
 
+        <a href="{{ url('championship_page', {"championshipId": championship.id}) }}">Retour ...</a>
+
         <form class="col-12 col-sm-8 mx-auto" method="get">
 
             <div class="form-group">
@@ -27,14 +29,40 @@
 
         <table class="table">
 
+            <tr>
+                <th>Domicile</th>
+                <th>Exterieur</th>
+                <th>Phase</th>
+            </tr>
+
+            {% for game in pool.games %}
+
+                <tr>
+                    <td>{{ game.homeTeam.team.name }}</td>
+                    <td>{{ game.outsideTeam.team.name }}</td>
+
+                    {% if game.homeMatch %}
+
+                        <td>Aller</td>
+
+                    {% else %}
+
+                        <td>Retour</td>
+
+                    {% endif %}
+
+
+                </tr>
+
+            {% endfor %}
 
 
         </table>
 
-        <form method="post">
+        <form class="d-flex justify-content-end" method="post">
             <input type="hidden" name="selectedPoolId" value="{{ selectedPoolId }}">
 
-            <button type="submit" class="btn btn-primary">Générer le calendrier</button>
+            <button type="submit" class="btn btn-primary">Générer les paires de matchs</button>
         </form>
 
     </div>

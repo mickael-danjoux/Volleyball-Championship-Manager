@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Entity\Championship;
 use App\Entity\ChampionshipTeam;
 use App\Entity\Club;
+use App\Entity\Game;
 use App\Entity\Pool;
 use App\Entity\SpecificationPoint;
 use App\Entity\Team;
@@ -15,6 +16,7 @@ use App\Exception\PoolNotFound;
 use App\Form\ChampionshipEditType;
 use App\Repository\ChampionshipRepository;
 use App\Repository\PoolRepository;
+use App\Utility\TeamPairGenerator;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +32,7 @@ class ChampionshipController extends AbstractController
     {
         $championships = $championshipRepository->getAll();
 
-        return $this->render('championship/championship-list.html.twig', [
+        return $this->render('championship/list.html.twig', [
             "championships" => $championships
         ]);
     }
@@ -242,9 +244,24 @@ class ChampionshipController extends AbstractController
             $selectedPoolId = 0;
         }
 
+        if( $request->getMethod() === "POST" ){
+            $teams = $pool->getChampionshipTeams();
+
+            $matchPair = new TeamPairGenerator($teams);
+            $matchPair->generateTeamPair();
+
+            foreach( $matchPair->getTeamPairs() as $teamPair ){
+                $game = new Game( $teamPair['home'], $teamPair['outside'], $teamPair['phase-one']  );
+                $pool->addGame( $game );
+            }
+
+            $poolRepository->save( $pool );
+        }
+
         return $this->render('championship/championship-edit-calendar.html.twig', [
             "championship" => $championship,
-            "selectedPoolId" => $selectedPoolId
+            "selectedPoolId" => $selectedPoolId,
+            "pool" => $pool
         ]);
     }
 }
