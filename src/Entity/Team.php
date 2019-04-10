@@ -27,17 +27,23 @@ class Team extends Account
      */
     private $club;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\VolleyballCourt", inversedBy="teams", cascade={"persist"})
+     */
+    private $volleyballCourts;
 
-    public function __construct($validate, $club, $email, $password, $phoneNumber, $name, $managerFirstName, $managerLastName, $active)
+    public function __construct($validate, $club, $volleyballCourts, $email, $password, $phoneNumber, $name, $managerFirstName, $managerLastName, $active)
     {
         $this->validate = $validate;
         $this->club = $club;
+        $this->volleyballCourts = $volleyballCourts;
         parent::__construct($email, $password, $phoneNumber, $name, $managerFirstName, $managerLastName, $active);
     }
 
-    public function setTeam($name, $managerLastName, $managerFirstName, $email, $phoneNumber, $active, $validate): void
+    public function setTeam($name, $managerLastName, $managerFirstName, $email, $phoneNumber, $active, $validate, $volleyballCourts): void
     {
         $this->validate = $validate;
+        $this->volleyballCourts = $volleyballCourts;
         $this->setAccount($name, $managerLastName, $managerFirstName, $email, $phoneNumber, $active);
     }
 
@@ -49,6 +55,11 @@ class Team extends Account
     public function getClub(): Club
     {
         return $this->club;
+    }
+
+    public function getVolleyballCourts()
+    {
+        return $this->volleyballCourts;
     }
 
 

@@ -38,6 +38,11 @@ class VolleyballCourt
     private $club;
 
     /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Team", mappedBy="volleyballCourts")
+     */
+    private $teams;
+
+    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Day", inversedBy="volleyballCourts", cascade={"persist"})
      */
     private $days;
@@ -77,6 +82,11 @@ class VolleyballCourt
     public function getClub(): Club
     {
         return $this->club;
+    }
+
+    public function getTeams()
+    {
+        return $this->teams;
     }
 
     public function getDays()

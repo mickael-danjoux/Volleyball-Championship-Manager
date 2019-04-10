@@ -37,7 +37,7 @@ class Club extends Account
         return $this->teams;
     }
 
-    public function getVolleyballCourts(): array
+    public function getVolleyballCourts()
     {
         return $this->volleyballCourts;
     }
