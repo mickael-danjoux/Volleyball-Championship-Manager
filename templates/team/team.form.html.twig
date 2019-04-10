@@ -31,13 +31,21 @@
                 <label for="inputCaptainPhoneNumber">Téléphone du capitaine</label>
                 <input class="form-control" id="inputCaptainPhoneNumber" name="captainPhoneNumber" type="tel" value="{% if team.id is defined %}{{ team.phoneNumber }}{% endif %}">
             </div>
-            <!--<div class="form-group">
-                <label for="selectVolleyballCourt"></label>
-                <select class="custom-select" id="selectVolleyballCourt" name="volleyballCourt" required>
-                    <option value="1">Terrain 1</option>
-                    <option value="2">Terrain 2</option>
-                </select>
-            </div>-->
+            {% if club.volleyballCourts is defined %}
+                <div class="form-group">
+                    {% for clubCourt in club.volleyballcourts %}
+                        <div>
+                            <input type="checkbox" name="volleyballCourts[]" {% if team.id is defined %}{% for teamCourt in team.volleyballCourts %}{% if teamCourt.id == clubCourt.id %}checked{% endif %}{% endfor %}{% endif %} value="{{ clubCourt.id }}"/>
+                            {{ clubCourt.place }} - {{ clubCourt.address }}
+                            {% if clubCourt.teams|length > 0 %}
+                                <span class="float-right text-danger">utilisé par {{ clubCourt.teams|length }} équipe(s)</span>
+                            {% else %}
+                                <span class="float-right text-primary">utilisé par {{ clubCourt.teams|length }} équipe(s)</span>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
             <div class="form-group">
                 <label for="inputActive">Équipe active</label>
                 <select class="custom-select" id="inputActive" name="active" required>

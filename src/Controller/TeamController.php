@@ -14,6 +14,7 @@ namespace App\Controller;
 
 use App\Entity\Club;
 use App\Entity\Team;
+use App\Entity\VolleyballCourt;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -62,21 +63,28 @@ class TeamController extends AbstractController
     public function teamForm(Request $req){
 
         if ($req->isMethod('GET')) {
-            if($req ->get('clubId') != null){
-                if ($req->get('teamId') != null && $req->get('clubId') != null) {
+            if($req ->get('clubId') != null) {
+
+                $clubId = $req->get('clubId');
+                $club = $this->getDoctrine()->getRepository(Club::class)->find($clubId);
+
+                if ($req->get('teamId') != null) {
 
                     $teamId = $req->get('teamId');
                     $team = $this->getDoctrine()->getRepository(Team::class)->find($teamId);
 
                     return $this->render('team/team.form.html.twig', [
-                        'team' => $team
+                        'team' => $team,
+                        'club' => $club
                     ], new Response(200));
 
                 } else {
 
-                    return $this->render('team/team.form.html.twig', [], new Response(200));
+                    return $this->render('team/team.form.html.twig', [
+                        'club' => $club
+                    ], new Response(200));
                 }
-            }else{
+            } else {
                 return $this ->redirectToRoute('clubs');
             }
 
@@ -95,9 +103,17 @@ class TeamController extends AbstractController
             $email = $req->get("captainEmail");
             $password = $req->get("password");
             $phoneNumber = $req->get("captainPhoneNumber");
-            $volleyballCourtId = $req->get("volleyballCourt");
             $active = $req->get("active");
             $validate = $req->get("validate");
+
+            $volleyballCourts = [];
+            $volleyballCourtsId = $req->get("volleyballCourts");
+            if ($volleyballCourtsId != null) {
+                foreach ($volleyballCourtsId as $courtId) {
+                    $court = $this->getDoctrine()->getRepository(VolleyballCourt::class)->find($courtId);
+                    array_push($volleyballCourts, $court);
+                }
+            }
 
             if ($validate == 0) {
                 $active = 0;
@@ -105,9 +121,9 @@ class TeamController extends AbstractController
 
             $team = $this->getDoctrine()->getRepository(Team::class)->find($teamId);
             if ($team !== null) {
-                $team->setTeam($teamName, $captainLastName, $captainFirstName, $email, $phoneNumber, $active, $validate);
+                $team->setTeam($teamName, $captainLastName, $captainFirstName, $email, $phoneNumber, $active, $validate, $volleyballCourts);
             } else {
-                $team = new Team($validate, $club, $email, $password, $phoneNumber, $teamName, $captainLastName, $captainFirstName, $active);
+                $team = new Team($validate, $club, $volleyballCourts, $email, $password, $phoneNumber, $teamName, $captainLastName, $captainFirstName, $active);
             }
 
             $entityManager->persist($team);
