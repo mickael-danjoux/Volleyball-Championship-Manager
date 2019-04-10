@@ -47,10 +47,10 @@ class AppFixtures extends Fixture
             $club = new Club( $clubName . "@mail.com" , "123456", "0123456789", $clubName, "Jacky", "Michel", 1);
             $manager->persist( $club );
 
-            for( $i = 0; $i < 2; $i++ ){
-                $team = new Team(1, $club, [],$clubName . "_" . ($i+1) . "@mail.com", "123456", "0123456789", $clubName . "-" . $i, "Captain", "Morgan", 1);
+            for( $i = 1; $i < 3; $i++ ){
+                $team = new Team(1, $club, [],$clubName . "_" . $i . "@mail.com", "123456", "0123456789", $clubName . "-" . $i, "Captain", "Morgan", 1);
                 $manager->persist( $team );
-                $court = new VolleyballCourt($clubName . "_" . ($i+1), "adresse", $club, []);
+                $court = new VolleyballCourt($clubName . "_" . $i, "adresse", $club, []);
                 $manager->persist($court);
             }
         }
