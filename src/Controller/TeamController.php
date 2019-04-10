@@ -108,9 +108,11 @@ class TeamController extends AbstractController
 
             $volleyballCourts = [];
             $volleyballCourtsId = $req->get("volleyballCourts");
-            foreach ($volleyballCourtsId as $courtId) {
-                $court = $this->getDoctrine()->getRepository(VolleyballCourt::class)->find($courtId);
-                array_push($volleyballCourts, $court);
+            if ($volleyballCourtsId != null) {
+                foreach ($volleyballCourtsId as $courtId) {
+                    $court = $this->getDoctrine()->getRepository(VolleyballCourt::class)->find($courtId);
+                    array_push($volleyballCourts, $court);
+                }
             }
 
             if ($validate == 0) {

@@ -6,6 +6,7 @@ use App\Entity\Championship;
 use App\Entity\Club;
 use App\Entity\SpecificationPoint;
 use App\Entity\Team;
+use App\Entity\VolleyballCourt;
 use App\Repository\ChampionshipRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -47,8 +48,10 @@ class AppFixtures extends Fixture
             $manager->persist( $club );
 
             for( $i = 0; $i < 2; $i++ ){
-                $team = new Team(1, $club, $clubName . "_" . $i . "@mail.com", "123456", "0123456789", $clubName . "-" . $i, "Captain", "Morgan", 1);
+                $team = new Team(1, $club, [],$clubName . "_" . ($i+1) . "@mail.com", "123456", "0123456789", $clubName . "-" . $i, "Captain", "Morgan", 1);
                 $manager->persist( $team );
+                $court = new VolleyballCourt($clubName . "_" . ($i+1), "adresse", $club, []);
+                $manager->persist($court);
             }
         }
 

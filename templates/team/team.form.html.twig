@@ -37,6 +37,11 @@
                         <div>
                             <input type="checkbox" name="volleyballCourts[]" {% if team.id is defined %}{% for teamCourt in team.volleyballCourts %}{% if teamCourt.id == clubCourt.id %}checked{% endif %}{% endfor %}{% endif %} value="{{ clubCourt.id }}"/>
                             {{ clubCourt.place }} - {{ clubCourt.address }}
+                            {% if clubCourt.teams|length > 0 %}
+                                <span class="float-right text-danger">utilisé par {{ clubCourt.teams|length }} équipe(s)</span>
+                            {% else %}
+                                <span class="float-right text-primary">utilisé par {{ clubCourt.teams|length }} équipe(s)</span>
+                            {% endif %}
                         </div>
                     {% endfor %}
                 </div>
