@@ -36,6 +36,7 @@ class Pool
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Game", mappedBy="pool", cascade={"persist"})
+     * @ORM\OrderBy({"homeMatch"="DESC"})
      */
     private $games;
 
@@ -99,7 +100,17 @@ class Pool
     public function addGame(Game $game): self
     {
         if (!$this->games->contains($game)) {
-            $this->games[] = $game;
+
+            if( $game->getHomeMatch() ){
+                $gamesTmp = $this->games->getValues();
+                array_unshift($gamesTmp, $game);
+                $this->games = new ArrayCollection($gamesTmp);
+            }
+            else{
+                $this->games[] = $game;
+            }
+
+
             $game->setPool($this);
         }
 
@@ -117,5 +128,10 @@ class Pool
         }
 
         return $this;
+    }
+
+    public function reinitializeGames(): void
+    {
+
     }
 }

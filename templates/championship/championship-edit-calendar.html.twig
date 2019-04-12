@@ -35,26 +35,30 @@
                 <th>Phase</th>
             </tr>
 
-            {% for game in pool.games %}
+            {% if pool != null %}
 
-                <tr>
-                    <td>{{ game.homeTeam.team.name }}</td>
-                    <td>{{ game.outsideTeam.team.name }}</td>
+                {% for game in pool.games %}
 
-                    {% if game.homeMatch %}
+                    <tr>
+                        <td>{{ game.homeTeam.team.name }}</td>
+                        <td>{{ game.outsideTeam.team.name }}</td>
 
-                        <td>Aller</td>
+                        {% if game.homeMatch %}
 
-                    {% else %}
+                            <td>Aller</td>
 
-                        <td>Retour</td>
+                        {% else %}
 
-                    {% endif %}
+                            <td>Retour</td>
+
+                        {% endif %}
 
 
-                </tr>
+                    </tr>
 
-            {% endfor %}
+                {% endfor %}
+
+            {% endif %}
 
 
         </table>

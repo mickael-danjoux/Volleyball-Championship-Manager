@@ -18,6 +18,7 @@ use App\Repository\ChampionshipRepository;
 use App\Repository\PoolRepository;
 use App\Utility\TeamPairGenerator;
 use Doctrine\ORM\EntityNotFoundException;
+use mysql_xdevapi\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -237,6 +238,7 @@ class ChampionshipController extends AbstractController
 
         $selectedPoolId = (int) $request->get('pool');
 
+        $pool = null;
         try{
             $pool = $poolRepository->get( $selectedPoolId );
         }
@@ -249,6 +251,9 @@ class ChampionshipController extends AbstractController
 
             $matchPair = new TeamPairGenerator($teams);
             $matchPair->generateTeamPair();
+
+            $pool->reinitializeGames();
+            $poolRepository->save( $pool );
 
             foreach( $matchPair->getTeamPairs() as $teamPair ){
                 $game = new Game( $teamPair['home'], $teamPair['outside'], $teamPair['phase-one']  );
